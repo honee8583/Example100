@@ -36,7 +36,7 @@ public class NoticeController {
      * 8. 공지사항 게시판의 내용을 추상화한 모델(게시글ID, 제목, 내용, 등록일)을 복수형태로 리턴하는 api를 작성하시오.
      */
     @GetMapping("/api/notice3")
-    public List<NoticeDto> getNotice3() {
+    public List<NoticeDto> getNoticeList1() {
         List<NoticeDto> noticeDtos = new ArrayList<>();
         NoticeDto noticeDto1 = NoticeDto.builder()
                 .id(1L)
@@ -52,6 +52,16 @@ public class NoticeController {
                 .build();
         noticeDtos.add(noticeDto1);
         noticeDtos.add(noticeDto2);
+        return noticeDtos;
+    }
+
+    /**
+     * 9. 빈 공지사항 데이터 리스트를 반환하는 api를 작성하시오.
+     */
+    @GetMapping("/api/notice4")
+    public List<NoticeDto> getNoticeList2() {
+        List<NoticeDto> noticeDtos = new ArrayList<>();
+
         return noticeDtos;
     }
 }
