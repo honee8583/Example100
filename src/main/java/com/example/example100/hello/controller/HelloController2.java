@@ -23,4 +23,12 @@ public class HelloController2 {
     public String helloRest() {
         return "hello rest";
     }
+
+    /**
+     * 5. GetMapping 어노테이션을 사용하여 "hello rest api" 문자열을 반환하는 Rest형식의 함수를 작성하시오.
+     */
+    @GetMapping("/api/helloworld")
+    public String helloRestApi() {
+        return "hello rest api";
+    }
 }
