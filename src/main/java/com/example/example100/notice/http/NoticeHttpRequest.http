@@ -3,3 +3,6 @@ GET http://localhost:8080/api/notice
 
 ### 7. 공지사항 게시판의 내용을 추상화한 모델을 리턴하는 api
 GET http://localhost:8080/api/notice2
+
+### 8. 공지사항 게시판의 내용을 추상화한 모델을 리턴하는 api
+GET http://localhost:8080/api/notice3
