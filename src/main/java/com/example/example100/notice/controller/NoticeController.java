@@ -64,4 +64,12 @@ public class NoticeController {
 
         return noticeDtos;
     }
+
+    /**
+     * 10. 공지사항 게시판의 목록중 전체 개수 정보에 대한 요청을 처리하는 api를 작성하시오.
+     */
+    @GetMapping("/api/notice/count")
+    public Integer noticeCount() {
+        return 10;
+    }
 }

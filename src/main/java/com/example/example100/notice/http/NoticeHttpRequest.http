@@ -9,3 +9,6 @@ GET http://localhost:8080/api/notice3
 
 ### 9. 빈 공지사항 리스트를 반환하는 api
 GET http://localhost:8080/api/notice4
+
+### 10. 공지사항 게시판 데이터의 총 개수를 반환하는 api
+GET http://localhost:8080/api/notice/count
