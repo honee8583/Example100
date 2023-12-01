@@ -1,0 +1,2 @@
+### 1. "/first-url"을 주소로 가지는 반환값이 없는 api를 작성하시오.
+GET http://localhost:8080/first-url
