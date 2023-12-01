@@ -1,0 +1,2 @@
+### 6. "공지사항입니다."를 리턴하는 api
+GET http://localhost:8080/api/notice
