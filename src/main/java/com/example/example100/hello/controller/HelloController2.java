@@ -15,4 +15,12 @@ public class HelloController2 {
     public String helloSpring() {
         return "hello spring";
     }
+
+    /**
+     * 4. GetMapping 어노테이션을 사용하여 "hello rest" 문자열을 반환하는 Rest형식의 함수를 작성하시오.
+     */
+    @GetMapping("/hello-rest")
+    public String helloRest() {
+        return "hello rest";
+    }
 }
