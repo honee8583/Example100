@@ -8,11 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class Notice {
     private String title;
     private String content;
     private LocalDateTime regDate;
+    private LocalDateTime updateDate;
 
     private int hits;
     private int likes;

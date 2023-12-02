@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -169,5 +170,22 @@ public class NoticeController {
             return optionalNotice.get();
         }
         return null;
+    }
+
+    /**
+     * 17. 공지사항 글을 수정하기 위한 api를 작성하시오.
+     * json형식으로 제목, 내용을 입력받고 url을 통해 공지사항 ID를 요청.
+     * 수정일은 현재시간을 저장, 조회수와 좋아요수는 변경x.
+     */
+    @PutMapping("/api/notice/{id}")
+    public void updateNotice(@PathVariable Long id, @RequestBody NoticeInput noticeInput) {
+        Optional<Notice> optionalNotice = noticeRepository.findById(id);
+        if (optionalNotice.isPresent()) {
+            Notice notice = optionalNotice.get();
+            notice.setTitle(noticeInput.getTitle());
+            notice.setContent(noticeInput.getContent());
+            notice.setUpdateDate(LocalDateTime.now());
+            noticeRepository.save(notice);
+        }
     }
 }
