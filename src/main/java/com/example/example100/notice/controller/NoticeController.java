@@ -101,4 +101,15 @@ public class NoticeController {
         noticeDto.setRegDate(LocalDateTime.now());
         return noticeDto;
     }
+
+    /**
+     * 13. 공지사항에 글을 등록하기 위한 api를 작성하시오.
+     * application/json 형태로 입력받으시오.
+     */
+    @PostMapping("/api/notice3")
+    public NoticeDto registerNotice3(@RequestBody NoticeDto noticeDto) {
+        noticeDto.setId(2L);
+        noticeDto.setRegDate(LocalDateTime.now());
+        return noticeDto;
+    }
 }
