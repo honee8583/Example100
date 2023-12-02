@@ -213,4 +213,20 @@ public class NoticeController {
     public ResponseEntity<String> NoticeNotFoundExceptionHandler(NoticeNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * 19. 공지사항 글을 수정하기 위한 api를 작성하시오.
+     * 존재하지 않는 게시글일경우 예외 발생.
+     * 제목, 내용, 수정일 수정.
+     */
+    @PutMapping("/api/notice3/{id}")
+    public void updateNotice3(@PathVariable Long id, @RequestBody NoticeInput noticeInput) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new NoticeNotFoundException("존재하지 않는 공지사항입니다."));
+
+        notice.setTitle(noticeInput.getTitle());
+        notice.setContent(noticeInput.getContent());
+        notice.setUpdateDate(LocalDateTime.now());
+        noticeRepository.save(notice);
+    }
 }
