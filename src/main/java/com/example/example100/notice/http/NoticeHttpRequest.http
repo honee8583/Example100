@@ -12,3 +12,9 @@ GET http://localhost:8080/api/notice4
 
 ### 10. 공지사항 게시판 데이터의 총 개수를 반환하는 api
 GET http://localhost:8080/api/notice/count
+
+### 11. 공지사항에 글을 등록하기 위한 api를 작성하시오.
+POST http://localhost:8080/api/notice
+Content-Type: application/x-www-form-urlencoded
+
+title=공지사항 제목입니다&content=공지사항 내용입니다.

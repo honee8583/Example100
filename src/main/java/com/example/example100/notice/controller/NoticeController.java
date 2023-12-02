@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -71,5 +74,20 @@ public class NoticeController {
     @GetMapping("/api/notice/count")
     public Integer noticeCount() {
         return 10;
+    }
+
+    /**
+     * 11. 공지사항에 글을 등록하기 위한 api를 작성하시오.
+     * 제목, 내용을 입력받고 파라미터는 추상화하지 않고 기본데이터 타입 형태로 받는다.
+     * 리턴값은 입력된 형태에 게시글 ID(1)을 추가한 모델형태로 반환한다.
+     */
+    @PostMapping("/api/notice")
+    public NoticeDto registerNotice(@RequestParam String title, @RequestParam String content) {
+        return NoticeDto.builder()
+                .id(1L)
+                .title(title)
+                .content(content)
+                .regDate(LocalDateTime.now())
+                .build();
     }
 }
