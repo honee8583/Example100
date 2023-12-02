@@ -51,3 +51,6 @@ Content-Type: application/json
   "title": "공지사항 제목입니다5",
   "content": "공지사항 내용입니다5"
 }
+
+### 16. 공지사항 글을 수정하기 위해 상세정보를 요청하는 api를 작성하시오.
+GET http://localhost:8080/api/notice/1
