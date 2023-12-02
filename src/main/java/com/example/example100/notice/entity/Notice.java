@@ -23,4 +23,7 @@ public class Notice {
     private String title;
     private String content;
     private LocalDateTime regDate;
+
+    private int hits;
+    private int likes;
 }

@@ -42,3 +42,12 @@ Content-Type: application/json
   "title": "공지사항 제목입니다4",
   "content": "공지사항 내용입니다4"
 }
+
+### 15. 공지사항 글을 데이터베이스에 저장하는 api를 작성하시오.
+POST http://localhost:8080/api/notice5
+Content-Type: application/json
+
+{
+  "title": "공지사항 제목입니다5",
+  "content": "공지사항 내용입니다5"
+}

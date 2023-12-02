@@ -136,4 +136,22 @@ public class NoticeController {
 
         return noticeRepository.save(notice);
     }
+
+    /**
+     * 15. 공지사항을 등록한는 api를 작성하시오.
+     * 공지사항 조회수와 좋아요수의 초기값은 0으로 저장.
+     * id값이 포함된 Entity를 리턴.
+     */
+    @PostMapping("/api/notice5")
+    public Notice registerNotice5(@RequestBody NoticeInput noticeInput) {
+        Notice notice = Notice.builder()
+                .title(noticeInput.getTitle())
+                .content(noticeInput.getContent())
+                .regDate(LocalDateTime.now())
+                .hits(0)
+                .likes(0)
+                .build();
+
+        return noticeRepository.save(notice);
+    }
 }
