@@ -1,9 +1,13 @@
 package com.example.example100.notice.controller;
 
+import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.model.NoticeDto;
+import com.example.example100.notice.model.NoticeInput;
+import com.example.example100.notice.repository.NoticeRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class NoticeController {
+
+    private final NoticeRepository noticeRepository;
 
     /**
      * 6. "공지사항입니다." 문구를 리턴하는 api를 작성하시오.
@@ -111,5 +118,22 @@ public class NoticeController {
         noticeDto.setId(2L);
         noticeDto.setRegDate(LocalDateTime.now());
         return noticeDto;
+    }
+
+    /**
+     * 14. 데이터베이스에 공지사항을 등록한는 api를 작성하시오.
+     * 데이터베이스는 h2를 사용.
+     * 전달된 값을 저장하기 위한 repository와 Entity를 통해서 Database에 저장.
+     * id값이 저장된 Entity를 리턴.
+     */
+    @PostMapping("/api/notice4")
+    public Notice registerNotice4(@RequestBody NoticeInput noticeInput) {
+        Notice notice = Notice.builder()
+                .title(noticeInput.getTitle())
+                .content(noticeInput.getContent())
+                .regDate(LocalDateTime.now())
+                .build();
+
+        return noticeRepository.save(notice);
     }
 }
