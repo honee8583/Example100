@@ -90,4 +90,15 @@ public class NoticeController {
                 .regDate(LocalDateTime.now())
                 .build();
     }
+
+    /**
+     * 12. 공지사항에 글을 등록하기 위한 api를 작성하시오.
+     * 파라미터는 추상화한 모델로 입력받는다.
+     */
+    @PostMapping("/api/notice2")
+    public NoticeDto registerNotice2(NoticeDto noticeDto) {
+        noticeDto.setId(1L);
+        noticeDto.setRegDate(LocalDateTime.now());
+        return noticeDto;
+    }
 }
