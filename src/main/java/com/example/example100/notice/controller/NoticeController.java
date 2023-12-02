@@ -1,6 +1,7 @@
 package com.example.example100.notice.controller;
 
 import com.example.example100.notice.entity.Notice;
+import com.example.example100.notice.exception.NoticeNotFoundException;
 import com.example.example100.notice.model.NoticeDto;
 import com.example.example100.notice.model.NoticeInput;
 import com.example.example100.notice.repository.NoticeRepository;
@@ -9,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -187,5 +191,26 @@ public class NoticeController {
             notice.setUpdateDate(LocalDateTime.now());
             noticeRepository.save(notice);
         }
+    }
+
+    /**
+     * 18. 공지사항 글을 수정하기 위한 api를 작성하시오.
+     * 게시글이 존재하지 않을 경우 Exception을 발생시킨다.
+     * ExceptionHandler를 통해 구현하고 발생하는 예외에 대해서는 400에러, 예외 메시지를 리턴한다.
+     */
+    @PutMapping("/api/notice2/{id}")
+    public void updateNotice2(@PathVariable Long id, @RequestBody NoticeInput noticeInput) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new NoticeNotFoundException("존재하지 않는 공지사항입니다."));
+
+        notice.setTitle(noticeInput.getTitle());
+        notice.setContent(noticeInput.getContent());
+        notice.setUpdateDate(LocalDateTime.now());
+        noticeRepository.save(notice);
+    }
+
+    @ExceptionHandler(NoticeNotFoundException.class)
+    public ResponseEntity<String> NoticeNotFoundExceptionHandler(NoticeNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
