@@ -254,4 +254,15 @@ public class NoticeController {
             noticeRepository.delete(optionalNotice.get());
         }
     }
+
+    /**
+     * 22. 공지사항을 삭제하기 위한 api를 작성하시오.
+     * 공지사항이 존재하지 않을 경우 예외를 발생하시오.
+     */
+    @DeleteMapping("/api/notice2/{id}")
+    public void deleteNotice2(@PathVariable Long id) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new NoticeNotFoundException("존재하지 않는 게시글입니다."));
+        noticeRepository.delete(notice);
+    }
 }
