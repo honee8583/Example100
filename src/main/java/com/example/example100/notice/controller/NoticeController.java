@@ -360,4 +360,27 @@ public class NoticeController {
                 .build());
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * 28. 공지사항을 등록하는 api를 작성하시오.
+     * 제목의 경우 10~100자 사이.
+     * 내용의 경우 50~1000자 사이.
+     */
+    @PostMapping("/api/notice/register3")
+    public ResponseEntity<?> addNotice3(@RequestBody @Valid NoticeInput noticeInput, Errors errors) {
+        if (errors.hasErrors()) {
+            List<ErrorResponse> errorResponses = new ArrayList<>();
+            errors.getAllErrors().stream().forEach(e ->
+                    errorResponses.add(ErrorResponse.of((FieldError)e)));
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        noticeRepository.save(Notice.builder()
+                .title(noticeInput.getTitle())
+                .content(noticeInput.getContent())
+                .hits(0)
+                .likes(0)
+                .build());
+        return ResponseEntity.ok().build();
+    }
 }
