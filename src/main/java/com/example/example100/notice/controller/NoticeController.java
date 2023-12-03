@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -382,5 +387,14 @@ public class NoticeController {
                 .likes(0)
                 .build());
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 29. 데이터베이스에서 파라미터로 전달된 개수만큼 최근 공지사항을 리턴하는 api를 작성하시오.
+     */
+    @GetMapping("/api/notices/latest/{size}")
+    public Page<Notice> latestNotices(@PathVariable int size) {
+        return noticeRepository.findAll(
+                PageRequest.of(0, size, Direction.DESC, "regDate"));
     }
 }

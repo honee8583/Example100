@@ -131,3 +131,6 @@ Content-Type: application/json
   "title": "10글자 이상의 제목입니다.",
   "content": "내용"
 }
+
+### 29. 파라미터로 전달된 개수만큼 최근 공지사항을 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/notices/latest/2
