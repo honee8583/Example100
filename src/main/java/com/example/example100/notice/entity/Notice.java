@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -28,4 +27,7 @@ public class Notice {
 
     private int hits;
     private int likes;
+
+    private boolean deleted;
+    private LocalDateTime deletedDate;
 }

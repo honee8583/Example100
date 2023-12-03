@@ -1,6 +1,7 @@
 package com.example.example100.notice.controller;
 
 import com.example.example100.notice.entity.Notice;
+import com.example.example100.notice.exception.AlreadyDeletedException;
 import com.example.example100.notice.exception.NoticeNotFoundException;
 import com.example.example100.notice.model.NoticeDto;
 import com.example.example100.notice.model.NoticeInput;
@@ -264,5 +265,30 @@ public class NoticeController {
         Notice notice = noticeRepository.findById(id)
                 .orElseThrow(() -> new NoticeNotFoundException("존재하지 않는 게시글입니다."));
         noticeRepository.delete(notice);
+    }
+
+    /**
+     * 23. 공지사항을 삭제하기 위한 api를 작성하시오.
+     * 공지사항 글을 물리적으로 삭제하지 않고 삭제 플래그값을 이용하여 삭제.
+     * 삭제시간은 현재시간으로 설정한다.
+     * 공지사항이 이미 삭제된 경우에는 200 코드와 "이미 삭제된 글입니다." 문구를 리턴한다.
+     */
+    @DeleteMapping("/api/notice3/{id}")
+    public void deleteNotice3(@PathVariable Long id) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new NoticeNotFoundException("존재하지 않는 게시글입니다."));
+
+        if (notice.isDeleted()) {
+            throw new AlreadyDeletedException("이미 삭제된 글입니다.");
+        }
+
+        notice.setDeleted(true);
+        notice.setDeletedDate(LocalDateTime.now());
+        noticeRepository.save(notice);
+    }
+
+    @ExceptionHandler(AlreadyDeletedException.class)
+    public ResponseEntity<String> alreadyDeletedExceptionHandler(AlreadyDeletedException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
     }
 }
