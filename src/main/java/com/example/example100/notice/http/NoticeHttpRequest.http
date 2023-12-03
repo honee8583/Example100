@@ -134,3 +134,12 @@ Content-Type: application/json
 
 ### 29. 파라미터로 전달된 개수만큼 최근 공지사항을 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/notices/latest/2
+
+### 30.
+POST http://localhost:8080/api/notice/register4
+Content-Type: application/json
+
+{
+  "title": "제목입니다.1",
+  "content": "내용입니다.1"
+}

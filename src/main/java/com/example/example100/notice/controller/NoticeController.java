@@ -3,6 +3,7 @@ package com.example.example100.notice.controller;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.exception.AlreadyDeletedException;
+import com.example.example100.notice.exception.DuplicateNoticeException;
 import com.example.example100.notice.exception.NoticeNotFoundException;
 import com.example.example100.notice.model.NoticeDeleteInput;
 import com.example.example100.notice.model.NoticeDto;
@@ -16,8 +17,6 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -396,5 +395,48 @@ public class NoticeController {
     public Page<Notice> latestNotices(@PathVariable int size) {
         return noticeRepository.findAll(
                 PageRequest.of(0, size, Direction.DESC, "regDate"));
+    }
+
+    /**
+     * 30. 공지사항을 등록한 이후에 바로 동일한 제목과 내용의 공지사항을 등록하는 경우 등록을 막는 api를 작성하시오.
+     * 제목, 내용 일치 및 등록일간의 차이가 1분이내일경우 중복으로 판단.
+     */
+    @PostMapping("/api/notice/register4")
+    public void addNotice4(@RequestBody NoticeInput noticeInput) {
+        /*
+        // 데이터가 많을 경우 불리
+        Optional<List<Notice>> notices = noticeRepository.findByTitleAndContentAndRegDateIsGreaterThanEqual(
+                noticeInput.getTitle(),
+                noticeInput.getContent(),
+                LocalDateTime.now().minusMinutes(1));
+
+        if (notices.isPresent()) {
+            if (notices.get().size() > 0) {
+                throw new DuplicateNoticeException("1분 이내에 등록된 동일한 공지사항이 존재합니다.");
+            }
+        }
+        */
+
+        int count = noticeRepository.countByTitleAndContentAndRegDateIsGreaterThanEqual(
+                noticeInput.getTitle(),
+                noticeInput.getContent(),
+                LocalDateTime.now().minusMinutes(1));
+
+        if (count > 0) {
+            throw new DuplicateNoticeException("1분 이내에 등록된 동일한 공지사항이 존재합니다.");
+        }
+
+        noticeRepository.save(Notice.builder()
+                .title(noticeInput.getTitle())
+                .content(noticeInput.getContent())
+                .hits(0)
+                .likes(0)
+                .regDate(LocalDateTime.now())
+                .build());
+    }
+
+    @ExceptionHandler(DuplicateNoticeException.class)
+    public ResponseEntity<?> duplicateNoticeExceptionHandler(DuplicateNoticeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
