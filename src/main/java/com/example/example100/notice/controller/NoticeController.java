@@ -308,4 +308,12 @@ public class NoticeController {
         });
         noticeRepository.saveAll(notices);
     }
+
+    /**
+     * 25. 모든 공지사항 데이터를 삭제하기 위한 api를 작성하시오.
+     */
+    @DeleteMapping("/api/notice/all")
+    public void deleteAllNotices() {
+        noticeRepository.deleteAll();
+    }
 }

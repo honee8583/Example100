@@ -101,3 +101,6 @@ Content-Type: application/json
 {
   "ids": [2, 3]
 }
+
+### 25. 모든 공지사항 데이터를 삭제하기 위한 api를 작성하시오.
+DELETE http://localhost:8080/api/notice/all
