@@ -104,3 +104,12 @@ Content-Type: application/json
 
 ### 25. 모든 공지사항 데이터를 삭제하기 위한 api를 작성하시오.
 DELETE http://localhost:8080/api/notice/all
+
+### 26. 공지사항을 등록하기 위한 api를 작성하시오. NoticeInput을 파라미터로 사용.
+POST http://localhost:8080/api/notice/register
+Content-Type: application/json
+
+{
+  "title": "공지사항 제목입니다.",
+  "content": "공지사항 내용입니다."
+}

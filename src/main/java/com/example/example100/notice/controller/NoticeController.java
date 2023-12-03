@@ -316,4 +316,21 @@ public class NoticeController {
     public void deleteAllNotices() {
         noticeRepository.deleteAll();
     }
+
+    /**
+     * 26. 공지사항을 등록하는 api를 작성하시오.
+     * 이슈 : data.sql로 id값을 직접추가해준다면 JPA를 이용해서 데이터를 추가할 때 id값이 1부터 시작해 중복될 수 있음.
+     * 해결 : data.sql 파일에서 id값을 지정하지 않는다.
+     */
+    @PostMapping("/api/notice/register")
+    public void addNotice(@RequestBody NoticeInput noticeInput) {
+        Notice notice = Notice.builder()
+                .title(noticeInput.getTitle())
+                .content(noticeInput.getContent())
+                .hits(0)
+                .likes(0)
+                .regDate(LocalDateTime.now())
+                .build();
+        noticeRepository.save(notice);
+    }
 }
