@@ -3,6 +3,7 @@ package com.example.example100.notice.controller;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.exception.AlreadyDeletedException;
 import com.example.example100.notice.exception.NoticeNotFoundException;
+import com.example.example100.notice.model.NoticeDeleteInput;
 import com.example.example100.notice.model.NoticeDto;
 import com.example.example100.notice.model.NoticeInput;
 import com.example.example100.notice.repository.NoticeRepository;
@@ -131,7 +132,7 @@ public class NoticeController {
     }
 
     /**
-     * 14. 데이터베이스에 공지사항을 등록한는 api를 작성하시오.
+     * 14. 데이터베이스에 공지사항을 등록하는 api를 작성하시오.
      * 데이터베이스는 h2를 사용.
      * 전달된 값을 저장하기 위한 repository와 Entity를 통해서 Database에 저장.
      * id값이 저장된 Entity를 리턴.
@@ -290,5 +291,21 @@ public class NoticeController {
     @ExceptionHandler(AlreadyDeletedException.class)
     public ResponseEntity<String> alreadyDeletedExceptionHandler(AlreadyDeletedException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+    }
+
+    /**
+     * 24. 여러개의 공지사항을 삭제하기 위한 api를 작성하시오.
+     * 삭제할 공지사항의 id값들을 추상화한 모델로 입력.
+     * application/json 형태로 입력.
+     */
+    @DeleteMapping("/api/notice")
+    public void deleteNotices(@RequestBody NoticeDeleteInput noticeDeleteInput) {
+        List<Notice> notices = noticeRepository.findByIdIn(noticeDeleteInput.getIds())
+                .orElseThrow(() -> new NoticeNotFoundException("존재하지 않는 게시글입니다."));
+        notices.stream().forEach(notice -> {
+            notice.setDeleted(true);
+            notice.setDeletedDate(LocalDateTime.now());
+        });
+        noticeRepository.saveAll(notices);
     }
 }

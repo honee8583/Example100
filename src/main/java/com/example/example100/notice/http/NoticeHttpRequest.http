@@ -93,3 +93,11 @@ DELETE http://localhost:8080/api/notice2/4
 
 ### 23. 공지사항을 삭제하기 위한 api를 작성하시오.
 DELETE http://localhost:8080/api/notice3/2
+
+### 24. 여러개의 공지사항 엔티티를 삭제하기 위한 api를 작성하시오.
+DELETE http://localhost:8080/api/notice
+Content-Type: application/json
+
+{
+  "ids": [2, 3]
+}
