@@ -113,3 +113,12 @@ Content-Type: application/json
   "title": "공지사항 제목입니다.",
   "content": "공지사항 내용입니다."
 }
+
+### 27. Validation을 이용하여 입력값에 대한 유효성 검사를 통과한 후 공지사항을 등록하는 api를 작성하시오.
+POST http://localhost:8080/api/notice/register2
+Content-Type: application/json
+
+{
+  "title": "",
+  "content": ""
+}

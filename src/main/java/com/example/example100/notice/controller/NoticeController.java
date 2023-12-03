@@ -1,5 +1,6 @@
 package com.example.example100.notice.controller;
 
+import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.exception.AlreadyDeletedException;
 import com.example.example100.notice.exception.NoticeNotFoundException;
@@ -11,9 +12,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -332,5 +336,28 @@ public class NoticeController {
                 .regDate(LocalDateTime.now())
                 .build();
         noticeRepository.save(notice);
+    }
+
+    /**
+     * 27. 공지사항을 등록하는 api를 작성하시오.
+     * 제목과 내용이 입력되지 않은 경우 400리턴.
+     * 예외발생시 에러를 취합하여 콜렉션형태로 리턴.
+     */
+    @PostMapping("/api/notice/register2")
+    public ResponseEntity<?> addNotice2(@RequestBody @Valid NoticeInput noticeInput, Errors errors) {
+        if (errors.hasErrors()) {
+            List<ErrorResponse> errorResponses = new ArrayList<>();
+            errors.getAllErrors().stream().forEach(e ->
+                    errorResponses.add(ErrorResponse.of((FieldError)e)));
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        noticeRepository.save(Notice.builder()
+                .title(noticeInput.getTitle())
+                .content(noticeInput.getContent())
+                .hits(0)
+                .likes(0)
+                .build());
+        return ResponseEntity.ok().build();
     }
 }
