@@ -12,6 +12,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -241,5 +242,16 @@ public class NoticeController {
 
         notice.setHits(notice.getHits() + 1);
         noticeRepository.save(notice);
+    }
+
+    /**
+     * 21. 공지사항을 삭제하기 위한 api를 작성하시오.
+     */
+    @DeleteMapping("/api/notice/{id}")
+    public void deleteNotice(@PathVariable Long id) {
+        Optional<Notice> optionalNotice = noticeRepository.findById(id);
+        if (optionalNotice.isPresent()) {
+            noticeRepository.delete(optionalNotice.get());
+        }
     }
 }
