@@ -1,0 +1,21 @@
+### 31-1. 사용자 등록시 입력값이 유효하지 않은 경우 예외를 발생시키는 기능을 작성하시오.
+POST http://localhost:8080/api/user
+Content-Type: application/json
+
+{
+  "email": "email@naver.com",
+  "userName": "user",
+  "password": "1111",
+  "phone": "010-1234-5678"
+}
+
+### 31-2. 에러가 발생하는 경우
+POST http://localhost:8080/api/user
+Content-Type: application/json
+
+{
+  "email": "",
+  "userName": "",
+  "password": "",
+  "phone": ""
+}
