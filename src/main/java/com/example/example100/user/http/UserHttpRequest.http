@@ -64,3 +64,14 @@ Content-Type: application/json
   "password": "1111",
   "newPassword": "2222"
 }
+
+### 38. 사용자의 비밀번호를 암호화해 저장하는 api를 작성하시오.
+POST http://localhost:8080/api/user4
+Content-Type: application/json
+
+{
+  "email": "user5@gmail.com",
+  "userName": "user5",
+  "password": "1111",
+  "phone": "010-1234-5678"
+}

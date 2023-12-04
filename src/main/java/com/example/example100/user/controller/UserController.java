@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -204,5 +205,31 @@ public class UserController {
     @ExceptionHandler(PasswordNotMatchException.class)
     public ResponseEntity<?> passwordNotMatchExceptionHandler(PasswordNotMatchException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * 38. 회원가입시 비밀번호를 암호화하여 저장하는 api를 작성하시오.
+     */
+    @PostMapping("/api/user4")
+    public ResponseEntity<?> addUser4(@RequestBody @Valid UserInput userInput, Errors errors) {
+        List<ErrorResponse> errorResponses = checkErrors(errors);
+        if (errorResponses != null && errorResponses.size() > 0) {
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.countByEmail(userInput.getEmail()) > 0) {
+            throw new UserAlreadyExistsException("이미 존재하는 이메일입니다.");
+        }
+
+        userInput.setPassword(getEncryptedPassword(userInput.getPassword()));
+        User user = User.of(userInput);
+        userRepository.save(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private String getEncryptedPassword(String password) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder.encode(password);
     }
 }
