@@ -5,6 +5,7 @@ import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.UserAlreadyExistsException;
 import com.example.example100.user.exception.UserNotFoundException;
 import com.example.example100.user.model.UserInput;
+import com.example.example100.user.model.UserResponse;
 import com.example.example100.user.model.UserUpdateInput;
 import com.example.example100.user.repository.UserRepository;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -116,5 +118,19 @@ public class UserController {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> UserNotFoundExceptionHandler(UserNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * 34. 사용자 정보를 조회의 기능을 수행하는 api를 작성하시오.
+     * 비밀번호, 가입일, 회원정보 수정일은 리턴x
+     */
+    @GetMapping("/api/user/{id}")
+    public ResponseEntity<?> findUser(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        UserResponse userResponse = UserResponse.of(user);
+
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 }
