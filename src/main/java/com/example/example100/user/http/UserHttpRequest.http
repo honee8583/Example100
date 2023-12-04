@@ -55,3 +55,12 @@ Content-Type: application/json
   "password": "1111",
   "phone": "010-1234-5678"
 }
+
+### 37. 사용자의 비밀번호 수정 기능을 제공하는 api를 작성하시오.
+PATCH http://localhost:8080/api/user/1/password
+Content-Type: application/json
+
+{
+  "password": "1111",
+  "newPassword": "2222"
+}
