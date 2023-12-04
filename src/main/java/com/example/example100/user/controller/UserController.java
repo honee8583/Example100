@@ -1,6 +1,9 @@
 package com.example.example100.user.controller;
 
 import com.example.example100.error.ErrorResponse;
+import com.example.example100.notice.entity.Notice;
+import com.example.example100.notice.model.NoticeResponse;
+import com.example.example100.notice.repository.NoticeRepository;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.UserAlreadyExistsException;
 import com.example.example100.user.exception.UserNotFoundException;
@@ -12,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final NoticeRepository noticeRepository;
 
     /**
      * 31. 사용자 등록시 입력값이 유효하지 않은 경우 예외를 발생시키는 기능을 작성하시오.
@@ -132,5 +137,22 @@ public class UserController {
         UserResponse userResponse = UserResponse.of(user);
 
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
+
+    /**
+     * 35. 본인이 작성한 공지사항 목록을 제공하는 api를 작성하시오.
+     * 삭제일, 삭제자 아이디는 제공x.
+     * 작성자정보를 모두 제공하지 않고, 아이디와 이름만 제공.
+     */
+    @GetMapping("/api/user/{id}/notice")
+    public ResponseEntity<?> getUserNotice(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        Optional<List<Notice>> notices = noticeRepository.findByUser(user);
+        List<NoticeResponse> noticeResponses = notices.get().stream().map(NoticeResponse::of)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(noticeResponses);
     }
 }
