@@ -3,7 +3,9 @@ package com.example.example100.user.controller;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.UserAlreadyExistsException;
+import com.example.example100.user.exception.UserNotFoundException;
 import com.example.example100.user.model.UserInput;
+import com.example.example100.user.model.UserUpdateInput;
 import com.example.example100.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -85,5 +89,32 @@ public class UserController {
             return errorResponses;
         }
         return null;
+    }
+
+    /**
+     * 33. 사용자 정보를 수정하는 api를 작성하시오.
+     * 사용자 정보가 없는 경우 UserNotFoundException 발생.
+     * 연락처만 수정가능, 수정일은 현재 시간.
+     */
+    @PutMapping("/api/user/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateInput userUpdateInput, Errors errors) {
+        List<ErrorResponse> errorResponses = checkErrors(errors);
+        if (errorResponses != null && errorResponses.size() > 0) {
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        user.setPhone(userUpdateInput.getPhone());
+        user.setUpdateDate(LocalDateTime.now());
+        userRepository.save(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> UserNotFoundExceptionHandler(UserNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

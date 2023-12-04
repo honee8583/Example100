@@ -26,4 +26,5 @@ public class User {
     private String password;
     private String phone;
     private LocalDateTime regDate;
+    private LocalDateTime updateDate;
 }

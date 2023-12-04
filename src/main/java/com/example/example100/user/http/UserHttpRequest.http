@@ -30,3 +30,11 @@ Content-Type: application/json
   "password": "1111",
   "phone": "010-1234-5678"
 }
+
+### 33. 사용자 정보를 수정하는 api를 작성하시오.
+PUT http://localhost:8080/api/user/4
+Content-Type: application/json
+
+{
+  "phone": "010-9876-5432"
+}
