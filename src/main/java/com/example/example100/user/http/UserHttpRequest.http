@@ -42,5 +42,16 @@ Content-Type: application/json
 ### 34. 사용자 정보를 조회하는 api를 작성하시오.
 GET http://localhost:8080/api/user/3
 
-### 35. 사용자 정보를 조회하는 api를 작성하시오.
-GET http://localhost:8080/api/user/4/notice
+### 35. 본인이 작성한 공지사항 목록을 제공하는 api를 작성하시오.
+GET http://localhost:8080/api/user/1/notice
+
+### 36. 사용자 등록시 이미 존재하는 이메일인경우 예외를 발생시키는 api를 작성하시오.
+POST http://localhost:8080/api/user3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "userName": "user1",
+  "password": "1111",
+  "phone": "010-1234-5678"
+}

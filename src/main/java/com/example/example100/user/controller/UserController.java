@@ -155,4 +155,25 @@ public class UserController {
 
         return ResponseEntity.ok(noticeResponses);
     }
+
+    /**
+     * 36. 사용자 등록시 이미 존재하는 이메일인경우 예외를 발생시키는 api를 작성하시오.
+     * 동일한 이메일에 가입된 회원정보가 존재하는 경우 UserAlreadyExistsException 에외 발생.
+     */
+    @PostMapping("/api/user3")
+    public ResponseEntity<?> addUser3(@RequestBody @Valid UserInput userInput, Errors errors) {
+        List<ErrorResponse> errorResponses = checkErrors(errors);
+        if (errorResponses != null && errorResponses.size() > 0) {
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.countByEmail(userInput.getEmail()) > 0) {
+            throw new UserAlreadyExistsException("이미 존재하는 이메일입니다.");
+        }
+
+        User user = User.of(userInput);
+        userRepository.save(user);
+
+        return ResponseEntity.ok().build();
+    }
 }

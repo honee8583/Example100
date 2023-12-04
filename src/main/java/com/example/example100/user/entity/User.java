@@ -1,5 +1,6 @@
 package com.example.example100.user.entity;
 
+import com.example.example100.user.model.UserInput;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,4 +28,14 @@ public class User {
     private String phone;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
+
+    public static User of(UserInput userInput) {
+        return User.builder()
+                .email(userInput.getEmail())
+                .userName(userInput.getUserName())
+                .password(userInput.getPassword())
+                .phone(userInput.getPhone())
+                .regDate(LocalDateTime.now())
+                .build();
+    }
 }
