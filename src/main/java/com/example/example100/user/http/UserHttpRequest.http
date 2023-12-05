@@ -87,3 +87,6 @@ Content-Type: application/json
    "userName": "user1",
    "phone": "010-1234-5678"
  }
+
+### 41. 사용자의 비밀번호 초기화를 요청하는 api를 작성하시오.
+GET http://localhost:8080/api/user/1/password/reset

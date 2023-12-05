@@ -18,9 +18,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -267,5 +270,37 @@ public class UserController {
         UserResponse userResponse = UserResponse.of(user);
 
         return ResponseEntity.ok().body(userResponse);
+    }
+
+    /**
+     * 41. 사용자 비밀번호 초기화 요청(아이디 입력후 전화번호로 문자를 전송받음)의 기능을 수행하는 api를 작성하시오.
+     * 아이디에 대한 정보 조회후 비밀번호를 초기화한 이후에 이를 문자전송.
+     * 초기화 코드는 10자의 문자열로 지정.
+     */
+    @GetMapping("/api/user/{id}/password/reset")
+    public ResponseEntity<?> resetUserPassword(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        String resetPasswordCode = getResetPasswordCode();
+        user.setPassword(getEncryptedPassword(resetPasswordCode));
+        userRepository.save(user);
+
+        String message = String.format("[%s]님의 임시 비밀번호가 [%s]로 초기화되었습니다.",
+                user.getUserName(), resetPasswordCode);
+        sendSMS(message);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private void sendSMS(String message) {
+        log.info("[문자메시지전송]");
+        log.info(message);
+    }
+
+    private String getResetPasswordCode() {
+        return UUID.randomUUID().toString()
+                .replaceAll("-", "")
+                .substring(0, 10);
     }
 }
