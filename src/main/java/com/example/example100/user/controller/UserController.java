@@ -20,11 +20,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -231,5 +233,24 @@ public class UserController {
     private String getEncryptedPassword(String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder.encode(password);
+    }
+
+    /**
+     * 39. 사용자 회원 탈퇴 기능에 대한 api를 작성하시오.
+     * 회원정보가 존재하지 않은 경우 예외처리
+     * 사용자가 등록한 공지사항이 있을 경우 회원삭제가 되지 않음.
+     */
+    @DeleteMapping("/api/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+        try{
+            userRepository.delete(user);
+        } catch(DataIntegrityViolationException e) {
+            return new ResponseEntity<>("제약조건에 문제가 발생하였습니다.", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("회원탈퇴중 문제가 발생하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok().build();
     }
 }

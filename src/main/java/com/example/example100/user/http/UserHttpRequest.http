@@ -75,3 +75,6 @@ Content-Type: application/json
   "password": "1111",
   "phone": "010-1234-5678"
 }
+
+### 39. 회원탈퇴에 대한 api를 작성하시오.
+DELETE http://localhost:8080/api/user/1
