@@ -8,6 +8,7 @@ import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.PasswordNotMatchException;
 import com.example.example100.user.exception.UserAlreadyExistsException;
 import com.example.example100.user.exception.UserNotFoundException;
+import com.example.example100.user.model.UserFindInput;
 import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserPasswordUpdateInput;
 import com.example.example100.user.model.UserResponse;
@@ -252,5 +253,19 @@ public class UserController {
             return new ResponseEntity<>("회원탈퇴중 문제가 발생하였습니다.", HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 40. 사용자 아이디(이메일)를 찾는 api를 작성하시오.
+     * 이름과 전화번호에 해당하는 이메일을 찾는다.
+     */
+    @GetMapping("/api/user5")
+    public ResponseEntity<?> findUser(@RequestBody UserFindInput userFindInput) {
+        User user = userRepository.findByUserNameAndPhone(userFindInput.getUserName(), userFindInput.getPhone())
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        UserResponse userResponse = UserResponse.of(user);
+
+        return ResponseEntity.ok().body(userResponse);
     }
 }
