@@ -1,3 +1,5 @@
 ### 48. 사용자 목록과 사용자 수를 함께 내리는 api를 작성하시오.
 GET http://localhost:8080/api/admin/user
 
+### 49. 사용자의 상세 정보를 조회하는 api를 조건에 맞게 구현하시오.
+GET http://localhost:8080/api/admin/user/5

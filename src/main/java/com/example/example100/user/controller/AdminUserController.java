@@ -1,13 +1,17 @@
 package com.example.example100.user.controller;
 
 import com.example.example100.user.entity.User;
+import com.example.example100.user.model.ResponseMessage;
+import com.example.example100.user.model.ResponseMessageHeader;
 import com.example.example100.user.model.UserListResponse;
 import com.example.example100.user.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,5 +34,19 @@ public class AdminUserController {
                 .build();
 
         return new ResponseEntity<>(userListResponse, HttpStatus.OK);
+    }
+
+    /**
+     * 49. 사용자의 상세 정보를 조회하는 api를 조건에 맞게 구현하시오.
+     * {"header": {result: true|false, resultCode:String, message: error message or alert message, status: http result code}, "body": data}
+     */
+    @GetMapping("/api/admin/user/{id}")
+    public ResponseEntity<?> userDetail(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(ResponseMessage.fail("사용자 정보가 존재하지 않습니다."), HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok().body(ResponseMessage.success(user));
     }
 }
