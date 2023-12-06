@@ -2,7 +2,9 @@ package com.example.example100.user.controller;
 
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
+import com.example.example100.notice.entity.NoticeLike;
 import com.example.example100.notice.model.NoticeResponse;
+import com.example.example100.notice.repository.NoticeLikeRepository;
 import com.example.example100.notice.repository.NoticeRepository;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.PasswordNotMatchException;
@@ -46,6 +48,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
+    private final NoticeLikeRepository noticeLikeRepository;
 
     /**
      * 31. 사용자 등록시 입력값이 유효하지 않은 경우 예외를 발생시키는 기능을 작성하시오.
@@ -302,5 +305,20 @@ public class UserController {
         return UUID.randomUUID().toString()
                 .replaceAll("-", "")
                 .substring(0, 10);
+    }
+
+    /**
+     * 42. 사용자가 좋아요한 공지사항 목록을 제공하는 api를 작성하시오.
+     */
+    @GetMapping("/api/user/{id}/notice/like")
+    public List<NoticeLike> getLikedNoticeList(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        List<NoticeLike> noticeLikes = noticeLikeRepository.findByUser(user);
+
+        log.info(noticeLikes.toString());
+
+        return noticeLikes;
     }
 }

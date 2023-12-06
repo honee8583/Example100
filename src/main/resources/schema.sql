@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS NOTICE;
 DROP TABLE IF EXISTS USER_ENTITY;
+DROP TABLE IF EXISTS NOTICE_LIKE;
 
 create table USER_ENTITY
 (
@@ -27,4 +28,13 @@ create table NOTICE
 
     USER_ID      BIGINT,
     constraint FK_NOTICE_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
+);
+
+create table NOTICE_LIKE
+(
+    ID        BIGINT auto_increment primary key,
+    NOTICE_ID BIGINT,
+    USER_ID   BIGINT,
+    constraint FK_NOTICE_LIKE_NOTICE_ID foreign key (NOTICE_ID) references NOTICE (ID),
+    constraint FK_NOTICE_LIKE_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
 );
