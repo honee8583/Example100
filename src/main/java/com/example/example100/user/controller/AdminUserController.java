@@ -2,8 +2,8 @@ package com.example.example100.user.controller;
 
 import com.example.example100.user.entity.User;
 import com.example.example100.user.model.ResponseMessage;
-import com.example.example100.user.model.ResponseMessageHeader;
 import com.example.example100.user.model.UserListResponse;
+import com.example.example100.user.model.UserSearchInput;
 import com.example.example100.user.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,5 +49,20 @@ public class AdminUserController {
         }
 
         return ResponseEntity.ok().body(ResponseMessage.success(user));
+    }
+
+    /**
+     * 50. 사용자 목록 조회에 대한 검색을 리턴하는 api를 작성하시오.
+     * 이메일, 이름, 전화번호에 대한 결과를 리턴.
+     */
+    @GetMapping("/api/admin/user/search")
+    public ResponseEntity<?> findUser(@RequestBody UserSearchInput userSearchInput) {
+        List<User> users = userRepository.findByEmailContainsAndUserNameContainsAndPhoneContains(
+                userSearchInput.getEmail(),
+                userSearchInput.getUserName(),
+                userSearchInput.getPhone()
+        );
+
+        return ResponseEntity.ok().body(ResponseMessage.success(users));
     }
 }

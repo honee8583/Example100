@@ -3,3 +3,13 @@ GET http://localhost:8080/api/admin/user
 
 ### 49. 사용자의 상세 정보를 조회하는 api를 조건에 맞게 구현하시오.
 GET http://localhost:8080/api/admin/user/5
+
+### 50.
+GET http://localhost:8080/api/admin/user
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "userName": "",
+  "phone": ""
+}
