@@ -12,10 +12,12 @@ import com.example.example100.user.exception.UserAlreadyExistsException;
 import com.example.example100.user.exception.UserNotFoundException;
 import com.example.example100.user.model.UserFindInput;
 import com.example.example100.user.model.UserInput;
+import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserPasswordUpdateInput;
 import com.example.example100.user.model.UserResponse;
 import com.example.example100.user.model.UserUpdateInput;
 import com.example.example100.user.repository.UserRepository;
+import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,13 +85,7 @@ public class UserController {
             throw new UserAlreadyExistsException("이미 존재하는 이메일입니다.");
         }
 
-        User user = User.builder()
-                .email(userInput.getEmail())
-                .userName(userInput.getUserName())
-                .password(userInput.getPassword())
-                .phone(userInput.getPhone())
-                .regDate(LocalDateTime.now())
-                .build();
+        User user = User.of(userInput);
         userRepository.save(user);
 
         return ResponseEntity.ok().build();
@@ -320,5 +316,26 @@ public class UserController {
         log.info(noticeLikes.toString());
 
         return noticeLikes;
+    }
+
+    /**
+     * 43. 사용자 이메일과 비밀번호를 통해서 가입된 회원정보와 일치하는지 확인(로그인)하는 api를 작성하시오.
+     * 비밀번호가 일치하지 않은 경우 PasswordNotMatchException 발생.
+     */
+    @PostMapping("/api/user/login")
+    public ResponseEntity<?> createJwtToken(@RequestBody @Valid UserLoginInput userLoginInput, Errors errors) {
+        List<ErrorResponse> errorResponses = checkErrors(errors);
+        if (errorResponses != null && errorResponses.size() > 0) {
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userRepository.findByEmail(userLoginInput.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        if (!PasswordUtils.equalPassword(userLoginInput.getPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

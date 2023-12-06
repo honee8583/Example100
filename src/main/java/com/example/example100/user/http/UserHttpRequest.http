@@ -93,3 +93,12 @@ GET http://localhost:8080/api/user/1/password/reset
 
 ### 42. 사용자가 좋아요한 공지사항 목록을 제공하는 api를 작성하시오.
 GET http://localhost:8080/api/user/1/notice/like
+
+### 43. 사용자 이메일과 비밀번호를 통해서 가입된 회원정보와 일치하는지 확인(로그인)하는 api를 작성하시오.
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "email": "user5@gmail.com",
+  "password": "1111"
+}
