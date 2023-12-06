@@ -2,6 +2,8 @@ package com.example.example100.user.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.entity.NoticeLike;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +54,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+    private final String TOKEN_KEY = "Example100";
 
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
@@ -392,8 +396,39 @@ public class UserController {
                 .withClaim("user_id", user.getId())
                 .withSubject(user.getUserName())
                 .withIssuer(user.getEmail())
-                .sign(Algorithm.HMAC512("Example100".getBytes()));
+                .sign(Algorithm.HMAC512(TOKEN_KEY.getBytes()));
 
         return ResponseEntity.ok().body(UserLoginToken.builder().token(token).build());
+    }
+
+    /**
+     * 46. JWT 토큰을 재발행하는 api를 작성하시오.
+     * 이미 발행된 JWT토큰을 통해서 토큰을 재발행하는 로직 구현.
+     * 정상적인 회원에대해서 재발행 진행.
+     */
+    @PatchMapping("/api/user/refresh")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String email = "";
+        try{
+            email = JWT.require(Algorithm.HMAC512(TOKEN_KEY))
+                    .build()
+                    .verify(token)
+                    .getIssuer();
+        } catch (JWTDecodeException e) {
+            return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        String newToken = JWT.create()
+                .withExpiresAt(java.sql.Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)))
+                .withClaim("user_id", user.getId())
+                .withSubject(user.getUserName())
+                .withIssuer(user.getEmail())
+                .sign(Algorithm.HMAC512(TOKEN_KEY.getBytes()));
+
+        return ResponseEntity.ok().body(UserLoginToken.builder().token(newToken).build());
     }
 }

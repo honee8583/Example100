@@ -120,3 +120,8 @@ Content-Type: application/json
   "email": "user1@gmail.com",
   "password": "1111"
 }
+
+### 46. JWT 토큰을 재발행하는 api를 작성하시오.
+PATCH http://localhost:8080/api/user/refresh
+Content-Type: application/json
+Authorization: aeyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4NjAyNzEsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.zMRNjrTJxpz19zE_3_s5CTKlDHX-NfsyvZBwBWUsjQEH1QtS7RRlAoswA9m-SNHhd2NzPKgpdzQ_jWOIYp-Oyw
