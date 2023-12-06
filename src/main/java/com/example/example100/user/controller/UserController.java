@@ -369,4 +369,31 @@ public class UserController {
 
         return ResponseEntity.ok().body(UserLoginToken.builder().token(token).build());
     }
+
+    /**
+     * 45. JWT 토큰 발행시 발행 유효기간을 1개월로 저장하는 api를 작성하시오.
+     */
+    @PostMapping("/api/user/login3")
+    public ResponseEntity<?> createJwtToken3(@RequestBody @Valid UserLoginInput userLoginInput, Errors errors) {
+        List<ErrorResponse> errorResponses = checkErrors(errors);
+        if (errorResponses != null && errorResponses.size() > 0) {
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userRepository.findByEmail(userLoginInput.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        if (!PasswordUtils.equalPassword(userLoginInput.getPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String token = JWT.create()
+                .withExpiresAt(java.sql.Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)))
+                .withClaim("user_id", user.getId())
+                .withSubject(user.getUserName())
+                .withIssuer(user.getEmail())
+                .sign(Algorithm.HMAC512("Example100".getBytes()));
+
+        return ResponseEntity.ok().body(UserLoginToken.builder().token(token).build());
+    }
 }

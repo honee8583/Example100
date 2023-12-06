@@ -111,3 +111,12 @@ Content-Type: application/json
   "email": "user1@gmail.com",
   "password": "1111"
 }
+
+### 45. JWT 토큰 발행시 발행 유효기간을 1개월로 저장하는 api를 작성하시오.
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}
