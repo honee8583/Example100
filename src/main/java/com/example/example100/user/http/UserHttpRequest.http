@@ -125,3 +125,7 @@ Content-Type: application/json
 PATCH http://localhost:8080/api/user/refresh
 Content-Type: application/json
 Authorization: aeyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4NjAyNzEsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.zMRNjrTJxpz19zE_3_s5CTKlDHX-NfsyvZBwBWUsjQEH1QtS7RRlAoswA9m-SNHhd2NzPKgpdzQ_jWOIYp-Oyw
+
+### 47. JWT토큰을 삭제하는 api를 작성하시오.
+DELETE http://localhost:8080/api/user/login
+Authorization: aeyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4NjAyNzEsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.zMRNjrTJxpz19zE_3_s5CTKlDHX-NfsyvZBwBWUsjQEH1QtS7RRlAoswA9m-SNHhd2NzPKgpdzQ_jWOIYp-Oyw

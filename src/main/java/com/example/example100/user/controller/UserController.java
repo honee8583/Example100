@@ -3,7 +3,6 @@ package com.example.example100.user.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.entity.NoticeLike;
@@ -22,6 +21,7 @@ import com.example.example100.user.model.UserPasswordUpdateInput;
 import com.example.example100.user.model.UserResponse;
 import com.example.example100.user.model.UserUpdateInput;
 import com.example.example100.user.repository.UserRepository;
+import com.example.example100.util.JWTUtils;
 import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -430,5 +431,22 @@ public class UserController {
                 .sign(Algorithm.HMAC512(TOKEN_KEY.getBytes()));
 
         return ResponseEntity.ok().body(UserLoginToken.builder().token(newToken).build());
+    }
+
+    /**
+     * 47. JWT 토큰에 대한 삭제를 요청하는 api를 작성하시오.
+     */
+    @DeleteMapping("/api/user/login")
+    public ResponseEntity<?> removeToken(@RequestHeader("Authorization") String token) {
+        String email = "";
+        try{
+            email = JWTUtils.getIssuer(token);
+        } catch (JWTDecodeException e) {
+            return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 토큰삭제 관련 로직 추가 (쿠키, 세션 삭제 등등)
+
+        return ResponseEntity.ok().build();
     }
 }
