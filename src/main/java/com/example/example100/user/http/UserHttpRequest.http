@@ -102,3 +102,12 @@ Content-Type: application/json
   "email": "user5@gmail.com",
   "password": "1111"
 }
+
+### 44. 사용자의 이메일과 비밀번호를 이용해서 JWT 토큰을 발행하는 api를 작성하시오.
+POST http://localhost:8080/api/user/login2
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}

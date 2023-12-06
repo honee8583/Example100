@@ -1,5 +1,7 @@
 package com.example.example100.user.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.entity.NoticeLike;
@@ -13,6 +15,7 @@ import com.example.example100.user.exception.UserNotFoundException;
 import com.example.example100.user.model.UserFindInput;
 import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLoginInput;
+import com.example.example100.user.model.UserLoginToken;
 import com.example.example100.user.model.UserPasswordUpdateInput;
 import com.example.example100.user.model.UserResponse;
 import com.example.example100.user.model.UserUpdateInput;
@@ -20,6 +23,7 @@ import com.example.example100.user.repository.UserRepository;
 import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -337,5 +341,32 @@ public class UserController {
         }
 
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 44. 사용자의 이메일과 비밀번호를 이용해서 JWT 토큰을 발행하는 api를 작성하시오.
+     */
+    @PostMapping("/api/user/login2")
+    public ResponseEntity<?> createJwtToken2(@RequestBody @Valid UserLoginInput userLoginInput, Errors errors) {
+        List<ErrorResponse> errorResponses = checkErrors(errors);
+        if (errorResponses != null && errorResponses.size() > 0) {
+            return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userRepository.findByEmail(userLoginInput.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다."));
+
+        if (!PasswordUtils.equalPassword(userLoginInput.getPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String token = JWT.create()
+                .withExpiresAt(new Date())  // 기간설정필요
+                .withClaim("user_id", user.getId())
+                .withSubject(user.getUserName())
+                .withIssuer(user.getEmail())
+                .sign(Algorithm.HMAC512("Example100".getBytes()));
+
+        return ResponseEntity.ok().body(UserLoginToken.builder().token(token).build());
     }
 }
