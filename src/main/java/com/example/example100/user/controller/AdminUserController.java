@@ -2,11 +2,12 @@ package com.example.example100.user.controller;
 
 import com.example.example100.notice.repository.NoticeRepository;
 import com.example.example100.user.entity.User;
-import com.example.example100.user.exception.UserNotFoundException;
+import com.example.example100.user.entity.UserLoginHistory;
 import com.example.example100.user.model.ResponseMessage;
 import com.example.example100.user.model.UserListResponse;
 import com.example.example100.user.model.UserSearchInput;
 import com.example.example100.user.model.UserStatusInput;
+import com.example.example100.user.repository.UserLoginHistoryRepository;
 import com.example.example100.user.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminUserController {
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
+    private final UserLoginHistoryRepository userLoginHistoryRepository;
 
     /**
      * 48. 사용자 목록과 사용자 수를 함께 내리는 api를 작성하시오.
@@ -108,5 +110,15 @@ public class AdminUserController {
         userRepository.delete(savedUser);
 
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 53. 사용자가 로그인했을 때 접속이력이 저장된다고 했을 때, 접속이력을 조회하는 api를 작성하시오.
+     * UserLoginHistory 엔티티를 통해서 구현
+     */
+    @GetMapping("/api/admin/user/login/history")
+    public ResponseEntity<?> userLoginHistory() {
+        List<UserLoginHistory> userLoginHistories = userLoginHistoryRepository.findAll();
+        return new ResponseEntity<>(ResponseMessage.success(userLoginHistories), HttpStatus.OK);
     }
 }

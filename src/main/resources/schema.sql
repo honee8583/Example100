@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS NOTICE;
 DROP TABLE IF EXISTS USER_ENTITY;
 DROP TABLE IF EXISTS NOTICE_LIKE;
+DROP TABLE IF EXISTS USER_LOGIN_HISTORY;
 
 create table USER_ENTITY
 (
@@ -38,4 +39,14 @@ create table NOTICE_LIKE
     USER_ID   BIGINT,
     constraint FK_NOTICE_LIKE_NOTICE_ID foreign key (NOTICE_ID) references NOTICE (ID),
     constraint FK_NOTICE_LIKE_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
+);
+
+create table USER_LOGIN_HISTORY
+(
+    ID         BIGINT auto_increment primary key,
+    USER_ID    BIGINT,
+    EMAIL      VARCHAR(255),
+    USER_NAME  VARCHAR(255),
+    LOGIN_DATE TIMESTAMP,
+    IP_ADDR    VARCHAR(255)
 );
