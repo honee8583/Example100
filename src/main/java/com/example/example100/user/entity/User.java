@@ -30,6 +30,7 @@ public class User {
     private String password;
     private String phone;
     private UserStatus status;
+    private boolean lockYn;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 

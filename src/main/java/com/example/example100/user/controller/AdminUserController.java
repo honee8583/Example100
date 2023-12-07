@@ -121,4 +121,25 @@ public class AdminUserController {
         List<UserLoginHistory> userLoginHistories = userLoginHistoryRepository.findAll();
         return new ResponseEntity<>(ResponseMessage.success(userLoginHistories), HttpStatus.OK);
     }
+
+    /**
+     * 54. 사용자의 접속을 제한하는 api를 작성하시오.
+     */
+    @PatchMapping("/api/admin/user/{id}/lock")
+    public ResponseEntity<?> userLock(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(ResponseMessage.fail("사용자 정보가 존재하지 않습니다."), HttpStatus.BAD_REQUEST);
+        }
+
+        User savedUser = user.get();
+        if (savedUser.isLockYn()) {
+            return new ResponseEntity<>(ResponseMessage.fail("이미 접속이 제한된 사용자입니다."), HttpStatus.BAD_REQUEST);
+        }
+
+        savedUser.setLockYn(true);
+        userRepository.save(savedUser);
+
+        return ResponseEntity.ok().body(ResponseMessage.success());
+    }
 }

@@ -27,3 +27,6 @@ DELETE http://localhost:8080/api/admin/user/1
 
 ### 53. 사용자가 로그인했을 때 접속이력이 저장된다고 했을 때, 접속이력을 조회하는 api를 작성하시오.
 GET http://localhost:8080/api/admin/user/login/history
+
+### 54. 사용자의 접속을 제한하는 api를 작성하시오.
+PATCH http://localhost:8080/api/admin/user/1/lock
