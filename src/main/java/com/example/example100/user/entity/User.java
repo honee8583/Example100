@@ -1,8 +1,11 @@
 package com.example.example100.user.entity;
 
 import com.example.example100.user.model.UserInput;
+import com.example.example100.user.model.UserStatus;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +29,7 @@ public class User {
     private String userName;
     private String password;
     private String phone;
+    private UserStatus status;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 

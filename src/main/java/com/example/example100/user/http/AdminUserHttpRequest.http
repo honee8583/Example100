@@ -4,7 +4,7 @@ GET http://localhost:8080/api/admin/user
 ### 49. 사용자의 상세 정보를 조회하는 api를 조건에 맞게 구현하시오.
 GET http://localhost:8080/api/admin/user/5
 
-### 50.
+### 50. 사용자 목록 조회에 대한 검색을 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/admin/user
 Content-Type: application/json
 
@@ -12,4 +12,12 @@ Content-Type: application/json
   "email": "user1@gmail.com",
   "userName": "",
   "phone": ""
+}
+
+### 51. 사용자의 상태를 변경하는 api를 작성하시오.
+PATCH http://localhost:8080/api/admin/user/1/status
+Content-Type: application/json
+
+{
+  "status": 2
 }
