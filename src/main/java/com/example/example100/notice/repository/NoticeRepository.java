@@ -15,4 +15,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     int countByTitleAndContentAndRegDateIsGreaterThanEqual(String title, String content, LocalDateTime checkDate);
 
     Optional<List<Notice>> findByUser(User user);
+
+    int countByUser(User user);
 }

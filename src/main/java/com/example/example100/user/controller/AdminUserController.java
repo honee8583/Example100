@@ -1,5 +1,6 @@
 package com.example.example100.user.controller;
 
+import com.example.example100.notice.repository.NoticeRepository;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.UserNotFoundException;
 import com.example.example100.user.model.ResponseMessage;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AdminUserController {
     private final UserRepository userRepository;
+    private final NoticeRepository noticeRepository;
 
     /**
      * 48. 사용자 목록과 사용자 수를 함께 내리는 api를 작성하시오.
@@ -82,6 +85,27 @@ public class AdminUserController {
         User savedUser = user.get();
         savedUser.setStatus(userStatusInput.getStatus());
         userRepository.save(savedUser);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 52. 사용자 정보를 삭제하는 api를 작성하시오.
+     * 작성된 게시글이 있을 경우 예외처리.
+     */
+    @DeleteMapping("/api/admin/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(ResponseMessage.fail("사용자 정보가 존재하지 않습니다."), HttpStatus.BAD_REQUEST);
+        }
+        User savedUser = user.get();
+
+        if (noticeRepository.countByUser(savedUser) > 0) {
+            return new ResponseEntity<>(ResponseMessage.fail("해당 회원이 작성한 게시글이 존재합니다."), HttpStatus.BAD_REQUEST);
+        }
+
+        userRepository.delete(savedUser);
 
         return ResponseEntity.ok().build();
     }
