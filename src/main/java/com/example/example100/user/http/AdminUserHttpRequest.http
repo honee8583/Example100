@@ -30,3 +30,6 @@ GET http://localhost:8080/api/admin/user/login/history
 
 ### 54. 사용자의 접속을 제한하는 api를 작성하시오.
 PATCH http://localhost:8080/api/admin/user/1/lock
+
+### 55. 사용자의 접속제한을 해제하는 api를 작성하시오.
+PATCH http://localhost:8080/api/admin/user/4/unlock

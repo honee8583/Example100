@@ -142,4 +142,25 @@ public class AdminUserController {
 
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
+
+    /**
+     * 55. 사용자의 접속제한을 해제하는 api를 작성하시오.
+     */
+    @PatchMapping("/api/admin/user/{id}/unlock")
+    public ResponseEntity<?> userUnLock(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(ResponseMessage.fail("사용자 정보가 존재하지 않습니다."), HttpStatus.BAD_REQUEST);
+        }
+
+        User savedUser = user.get();
+        if (!savedUser.isLockYn()) {
+            return new ResponseEntity<>(ResponseMessage.fail("이미 접속이 가능한 사용자입니다."), HttpStatus.BAD_REQUEST);
+        }
+
+        savedUser.setLockYn(false);
+        userRepository.save(savedUser);
+
+        return ResponseEntity.ok().body(ResponseMessage.success());
+    }
 }
