@@ -33,3 +33,6 @@ PATCH http://localhost:8080/api/admin/user/1/lock
 
 ### 55. 사용자의 접속제한을 해제하는 api를 작성하시오.
 PATCH http://localhost:8080/api/admin/user/4/unlock
+
+### 56. 회원전체수와 상태별 회원수에 대한 정보를 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/admin/user/status/count

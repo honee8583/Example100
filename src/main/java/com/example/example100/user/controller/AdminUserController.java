@@ -7,8 +7,10 @@ import com.example.example100.user.model.ResponseMessage;
 import com.example.example100.user.model.UserListResponse;
 import com.example.example100.user.model.UserSearchInput;
 import com.example.example100.user.model.UserStatusInput;
+import com.example.example100.user.model.UserSummary;
 import com.example.example100.user.repository.UserLoginHistoryRepository;
 import com.example.example100.user.repository.UserRepository;
+import com.example.example100.user.service.UserService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ public class AdminUserController {
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
     private final UserLoginHistoryRepository userLoginHistoryRepository;
+
+    private final UserService userService;
 
     /**
      * 48. 사용자 목록과 사용자 수를 함께 내리는 api를 작성하시오.
@@ -162,5 +166,16 @@ public class AdminUserController {
         userRepository.save(savedUser);
 
         return ResponseEntity.ok().body(ResponseMessage.success());
+    }
+
+    /**
+     * 56. 회원전체수와 상태별 회원수에 대한 정보를 리턴하는 api를 작성하시오.
+     * 서비스 클래스를 이용해서 작성.
+     */
+    @GetMapping("/api/admin/user/status/count")
+    public ResponseEntity<?> userStatusCount() {
+        UserSummary userSummary = userService.getUserStatusCount();
+
+        return ResponseEntity.ok().body(ResponseMessage.success(userSummary));
     }
 }
