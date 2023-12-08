@@ -178,4 +178,14 @@ public class AdminUserController {
 
         return ResponseEntity.ok().body(ResponseMessage.success(userSummary));
     }
+
+    /**
+     * 57. 오늘 가입한 사용자 가입 목륵을 리턴하는 api를 작성하시오.
+     */
+    @GetMapping("/api/admin/user/today")
+    public ResponseEntity<?> todayJoinUser() {
+        List<User> users = userService.getTodayJoinUsers();
+
+        return ResponseEntity.ok().body(ResponseMessage.success(users));
+    }
 }

@@ -36,3 +36,6 @@ PATCH http://localhost:8080/api/admin/user/4/unlock
 
 ### 56. 회원전체수와 상태별 회원수에 대한 정보를 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/admin/user/status/count
+
+### 57. 오늘 가입한 사용자 가입 목륵을 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/admin/user/today

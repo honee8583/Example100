@@ -1,9 +1,12 @@
 package com.example.example100.user.service.impl;
 
+import com.example.example100.user.entity.User;
 import com.example.example100.user.model.UserStatus;
 import com.example.example100.user.model.UserSummary;
 import com.example.example100.user.repository.UserRepository;
 import com.example.example100.user.service.UserService;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +26,14 @@ public class UserServiceImpl implements UserService {
                 .stopUserCount(stopUserCount)
                 .totalUserCount(totalCount)
                 .build();
+    }
+
+    @Override
+    public List<User> getTodayJoinUsers() {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime startDate = LocalDateTime.of(today.getYear(), today.getMonth(), today.getDayOfMonth(), 0, 0);
+        LocalDateTime endDate = startDate.plusDays(1);
+
+        return userRepository.findUsersJoinedToday(startDate, endDate);
     }
 }
