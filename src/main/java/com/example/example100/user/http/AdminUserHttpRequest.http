@@ -39,3 +39,6 @@ GET http://localhost:8080/api/admin/user/status/count
 
 ### 57. 오늘 가입한 사용자 가입 목륵을 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/admin/user/today
+
+### 58. 사용자별 공지사항 게시글수를 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/admin/user/notice/count

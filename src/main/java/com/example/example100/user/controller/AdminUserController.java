@@ -5,6 +5,7 @@ import com.example.example100.user.entity.User;
 import com.example.example100.user.entity.UserLoginHistory;
 import com.example.example100.user.model.ResponseMessage;
 import com.example.example100.user.model.UserListResponse;
+import com.example.example100.user.model.UserNoticeCount;
 import com.example.example100.user.model.UserSearchInput;
 import com.example.example100.user.model.UserStatusInput;
 import com.example.example100.user.model.UserSummary;
@@ -187,5 +188,15 @@ public class AdminUserController {
         List<User> users = userService.getTodayJoinUsers();
 
         return ResponseEntity.ok().body(ResponseMessage.success(users));
+    }
+
+    /**
+     * 58. 사용자별 공지사항 게시글수를 리턴하는 api를 작성하시오.
+     */
+    @GetMapping("/api/admin/user/notice/count")
+    public ResponseEntity<?> userNoticeCount() {
+        List<UserNoticeCount> userNoticeCounts = userService.getUserNoticeCount();
+
+        return ResponseEntity.ok().body(ResponseMessage.success(userNoticeCounts));
     }
 }
