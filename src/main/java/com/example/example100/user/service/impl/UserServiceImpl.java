@@ -1,6 +1,7 @@
 package com.example.example100.user.service.impl;
 
 import com.example.example100.user.entity.User;
+import com.example.example100.user.model.UserLogCount;
 import com.example.example100.user.model.UserNoticeCount;
 import com.example.example100.user.model.UserStatus;
 import com.example.example100.user.model.UserSummary;
@@ -43,5 +44,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserNoticeCount> getUserNoticeCount() {
         return userCustomRepository.findUserNoticeCount();
+    }
+
+    @Override
+    public List<UserLogCount> getUserLogCount() {
+        return userCustomRepository.findUserLogCount();
     }
 }

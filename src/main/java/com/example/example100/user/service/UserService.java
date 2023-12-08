@@ -1,6 +1,7 @@
 package com.example.example100.user.service;
 
 import com.example.example100.user.entity.User;
+import com.example.example100.user.model.UserLogCount;
 import com.example.example100.user.model.UserNoticeCount;
 import com.example.example100.user.model.UserSummary;
 import java.util.List;
@@ -11,4 +12,6 @@ public interface UserService {
     List<User> getTodayJoinUsers();
 
     List<UserNoticeCount> getUserNoticeCount();
+
+    List<UserLogCount> getUserLogCount();
 }
