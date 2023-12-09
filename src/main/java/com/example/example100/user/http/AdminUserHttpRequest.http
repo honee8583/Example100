@@ -45,3 +45,6 @@ GET http://localhost:8080/api/admin/user/notice/count
 
 ### 59. 사용자별 공지사항수와 좋아요수를 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/admin/user/notice/like/count
+
+### 60. 좋아요를 가장 많이 한 사용자 목록(10개)을 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/admin/user/like/best

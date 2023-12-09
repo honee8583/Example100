@@ -14,4 +14,9 @@ public interface UserService {
     List<UserNoticeCount> getUserNoticeCount();
 
     List<UserLogCount> getUserLogCount();
+
+    /**
+     * 좋아요를 가장 만이 한 사용자 목록 리턴
+     */
+    List<UserLogCount> getUserLikeBest();
 }

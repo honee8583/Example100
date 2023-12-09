@@ -210,4 +210,14 @@ public class AdminUserController {
 
         return ResponseEntity.ok().body(ResponseMessage.success(userLogCounts));
     }
+
+    /**
+     * 60. 좋아요를 가장 많이 한 사용자 목록(10개)을 리턴하는 api를 작성하시오.
+     */
+    @GetMapping("/api/admin/user/like/best")
+    public ResponseEntity<?> bestLikeUsers() {
+        List<UserLogCount> userLogCounts = userService.getUserLikeBest();
+
+        return ResponseEntity.ok().body(ResponseMessage.success(userLogCounts));
+    }
 }

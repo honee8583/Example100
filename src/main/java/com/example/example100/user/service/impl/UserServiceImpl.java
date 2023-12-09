@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
     public List<UserLogCount> getUserLogCount() {
         return userCustomRepository.findUserLogCount();
     }
+
+    @Override
+    public List<UserLogCount> getUserLikeBest() {
+        return userCustomRepository.findUserLikeBest();
+    }
 }
