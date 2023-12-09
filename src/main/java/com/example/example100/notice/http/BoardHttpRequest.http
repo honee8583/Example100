@@ -1,0 +1,7 @@
+### 61.
+POST http://localhost:8080/api/board/type
+Content-Type: application/json
+
+{
+  "name": "게시판1"
+}
