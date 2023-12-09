@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,6 +61,20 @@ public class BoardController {
         boardTypeUpdateInput.setId(id);
         ServiceResult result = boardService.updateBoard(boardTypeUpdateInput);
 
+        if (!result.isResult()) {
+            return new ResponseEntity<>(ResponseMessage.fail(result.getMessage()), HttpStatus.OK);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 63. 게시판 타입을 삭제하는 api를 작성하시오.
+     * 삭제할 게시판 타입의 게시판이 존재하면 삭제 진행 불가 처리.
+     */
+    @DeleteMapping("/api/board/type/{id}")
+    public ResponseEntity<?> deleteBoardType(@PathVariable Long id) {
+        ServiceResult result = boardService.deleteBoard(id);
         if (!result.isResult()) {
             return new ResponseEntity<>(ResponseMessage.fail(result.getMessage()), HttpStatus.OK);
         }

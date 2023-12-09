@@ -1,12 +1,15 @@
 package com.example.example100.notice.service.impl;
 
+import com.example.example100.notice.entity.Board;
 import com.example.example100.notice.entity.BoardType;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
 import com.example.example100.notice.model.ServiceResult;
+import com.example.example100.notice.repository.BoardRepository;
 import com.example.example100.notice.repository.BoardTypeRepository;
 import com.example.example100.notice.service.BoardService;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
     private final BoardTypeRepository boardTypeRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public ServiceResult addBoard(BoardTypeInput boardTypeInput) {
@@ -49,6 +53,24 @@ public class BoardServiceImpl implements BoardService {
         savedBoardType.setBoardName(boardTypeUpdateInput.getName());
         savedBoardType.setUpdateDate(LocalDateTime.now());
         boardTypeRepository.save(savedBoardType);
+
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult deleteBoard(Long id) {
+        Optional<BoardType> boardType = boardTypeRepository.findById(id);
+        if (!boardType.isPresent()) {
+            return ServiceResult.fail("삭제할 게시판타입이 존재하지 않습니다.");
+        }
+
+        BoardType savedBoardType = boardType.get();
+
+        if (boardRepository.countByBoardType(savedBoardType) > 0) {
+            return ServiceResult.fail("삭제할 게시판타입에 해당하는 게시글이 존재합니다.");
+        }
+
+        boardTypeRepository.delete(savedBoardType);
 
         return ServiceResult.success();
     }
