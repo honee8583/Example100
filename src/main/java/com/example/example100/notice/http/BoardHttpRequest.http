@@ -1,7 +1,15 @@
-### 61.
+### 61. 게시판 타입을 추가하는 api를 작성하시오.
 POST http://localhost:8080/api/board/type
 Content-Type: application/json
 
 {
   "name": "게시판1"
+}
+
+### 62. 게시판 타입을 수정하는 api를 작성하시오.
+PUT http://localhost:8080/api/board/type/1
+Content-Type: application/json
+
+{
+  "name": "수정된게시판1"
 }

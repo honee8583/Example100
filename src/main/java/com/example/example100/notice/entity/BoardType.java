@@ -19,4 +19,5 @@ public class BoardType {
 
     private String boardName;
     private LocalDateTime regDate;
+    private LocalDateTime updateDate;
 }
