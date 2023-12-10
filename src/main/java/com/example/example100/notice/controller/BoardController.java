@@ -128,7 +128,20 @@ public class BoardController {
      */
     @PatchMapping("/api/board/{id}/top")
     public ResponseEntity<?> setBoardTop(@PathVariable Long id) {
-        ServiceResult result = boardService.setBoardTop(id);
+        ServiceResult result = boardService.setBoardTop(id, true);
+        if (!result.isResult()) {
+            return new ResponseEntity<>(ResponseMessage.fail(result.getMessage()), HttpStatus.OK);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 68. 최상단에 위차한 게시글을 최상단 배치를 해제하는 api를 작성하시오.
+     */
+    @PatchMapping("/api/board/{id}/top/clear")
+    public ResponseEntity<?> setBoardTopClear(@PathVariable Long id) {
+        ServiceResult result = boardService.setBoardTop(id, false);
         if (!result.isResult()) {
             return new ResponseEntity<>(ResponseMessage.fail(result.getMessage()), HttpStatus.OK);
         }

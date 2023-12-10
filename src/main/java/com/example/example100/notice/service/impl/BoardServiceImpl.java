@@ -104,18 +104,22 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ServiceResult setBoardTop(Long id) {
+    public ServiceResult setBoardTop(Long id, boolean flag) {
         Optional<Board> board = boardRepository.findById(id);
         if (!board.isPresent()) {
             return ServiceResult.fail("게시글이 존재하지 않습니다.");
         }
 
         Board savedBoard = board.get();
-        if (savedBoard.isTopYn()) {
-            return ServiceResult.fail("이미 최상단에 위치한 게시글입니다.");
+        if (savedBoard.isTopYn() == flag) {
+            if (flag) {
+                return ServiceResult.fail("이미 최상단에 위치한 게시글입니다.");
+            } else {
+                return ServiceResult.fail("최상단에 위치한 게시글이 아닙니다.");
+            }
         }
 
-        savedBoard.setTopYn(true);
+        savedBoard.setTopYn(flag);
         boardRepository.save(savedBoard);
 
         return ServiceResult.success();
