@@ -2,6 +2,7 @@ package com.example.example100.notice.controller;
 
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardCountResponse;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
@@ -109,4 +110,17 @@ public class BoardController {
 
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * 66. 게시판별 작성된 게시글의 개수를 리턴하는 api를 작성하시오.
+     * 현재 사용가능한 게시판에 대해서 게시글의 개수를 리턴.
+     */
+    @GetMapping("/api/board/type/count")
+    public ResponseEntity<?> getBoardCountByBoardType() {
+        List<BoardCountResponse> boardCountResponses =
+                boardService.getBoardCountByBoardType();
+
+        return ResponseEntity.ok().body(boardCountResponses);
+    }
+
 }

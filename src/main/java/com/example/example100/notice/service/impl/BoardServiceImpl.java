@@ -1,11 +1,13 @@
 package com.example.example100.notice.service.impl;
 
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardCountResponse;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
 import com.example.example100.notice.model.ServiceResult;
 import com.example.example100.notice.repository.BoardRepository;
+import com.example.example100.notice.repository.BoardTypeCustomRepository;
 import com.example.example100.notice.repository.BoardTypeRepository;
 import com.example.example100.notice.service.BoardService;
 import java.time.LocalDateTime;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
     private final BoardTypeRepository boardTypeRepository;
+    private final BoardTypeCustomRepository boardTypeCustomRepository;
     private final BoardRepository boardRepository;
 
     @Override
@@ -92,5 +95,10 @@ public class BoardServiceImpl implements BoardService {
         boardTypeRepository.save(savedBoardType);
 
         return ServiceResult.success();
+    }
+
+    @Override
+    public List<BoardCountResponse> getBoardCountByBoardType() {
+        return boardTypeCustomRepository.getBoardCountByBoardType();
     }
 }

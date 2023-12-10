@@ -27,3 +27,6 @@ Content-Type: application/json
 {
   "usingYn": false
 }
+
+### 66. 게시판별 작성된 게시글의 개수를 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/board/type/count
