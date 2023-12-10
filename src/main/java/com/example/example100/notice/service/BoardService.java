@@ -2,6 +2,7 @@ package com.example.example100.notice.service;
 
 import com.example.example100.notice.entity.BoardType;
 import com.example.example100.notice.model.BoardCountResponse;
+import com.example.example100.notice.model.BoardPeriod;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
@@ -22,4 +23,6 @@ public interface BoardService {
     List<BoardCountResponse> getBoardCountByBoardType();
 
     ServiceResult setBoardTop(Long id, boolean flag);
+
+    ServiceResult setBoardPeriod(Long id, BoardPeriod boardPeriod);
 }

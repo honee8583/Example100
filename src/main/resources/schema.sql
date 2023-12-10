@@ -64,14 +64,16 @@ create table BOARD_TYPE
 
 create table BOARD
 (
-    ID            BIGINT auto_increment primary key,
-    USER_ID       BIGINT,
-    BOARD_TYPE_ID BIGINT,
-    TITLE         VARCHAR(255),
-    CONTENT       VARCHAR(255),
-    TOP_YN        BOOLEAN,
-    REG_DATE      TIMESTAMP,
-    UPDATE_DATE   TIMESTAMP,
+    ID                 BIGINT auto_increment primary key,
+    USER_ID            BIGINT,
+    BOARD_TYPE_ID      BIGINT,
+    TITLE              VARCHAR(255),
+    CONTENT            VARCHAR(255),
+    TOP_YN             BOOLEAN,
+    REG_DATE           TIMESTAMP,
+    UPDATE_DATE        TIMESTAMP,
+    PUBLISH_START_DATE DATE,
+    PUBLISH_END_DATE   DATE,
     constraint FK_BOARD_BOARD_TYPE_ID foreign key (BOARD_TYPE_ID) references BOARD_TYPE (ID),
     constraint FK_BOARD_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
 );

@@ -3,6 +3,7 @@ package com.example.example100.notice.service.impl;
 import com.example.example100.notice.entity.Board;
 import com.example.example100.notice.entity.BoardType;
 import com.example.example100.notice.model.BoardCountResponse;
+import com.example.example100.notice.model.BoardPeriod;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
@@ -120,6 +121,21 @@ public class BoardServiceImpl implements BoardService {
         }
 
         savedBoard.setTopYn(flag);
+        boardRepository.save(savedBoard);
+
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult setBoardPeriod(Long id, BoardPeriod boardPeriod) {
+        Optional<Board> board = boardRepository.findById(id);
+        if (!board.isPresent()) {
+            return ServiceResult.fail("게시글이 존재하지 않습니다.");
+        }
+
+        Board savedBoard = board.get();
+        savedBoard.setPublishStartDate(boardPeriod.getStartDate());
+        savedBoard.setPublishEndDate(boardPeriod.getEndDate());
         boardRepository.save(savedBoard);
 
         return ServiceResult.success();

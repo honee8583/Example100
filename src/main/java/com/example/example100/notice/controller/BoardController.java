@@ -1,7 +1,9 @@
 package com.example.example100.notice.controller;
 
+import com.example.example100.common.model.ResponseResult;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardPeriod;
 import com.example.example100.notice.model.BoardCountResponse;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
@@ -147,5 +149,18 @@ public class BoardController {
         }
 
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 69. 게시글의 게시기간을 시작일과 종요일로 설정하는 api를 작성하시오.
+     */
+    @PatchMapping("/api/board/{id}/publish")
+    public ResponseEntity<?> boardPeriod(@PathVariable Long id, @RequestBody BoardPeriod boardPeriod) {
+        ServiceResult result = boardService.setBoardPeriod(id, boardPeriod);
+        if (!result.isResult()) {
+            return ResponseResult.fail(result.getMessage());
+        }
+
+        return ResponseResult.success();
     }
 }

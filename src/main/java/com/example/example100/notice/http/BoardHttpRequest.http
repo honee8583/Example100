@@ -36,3 +36,12 @@ PATCH http://localhost:8080/api/board/1/top
 
 ### 68. 게시글을 최상단배치에서 해제하는 api를 작성하시오.
 PATCH http://localhost:8080/api/board/1/top/clear
+
+### 69. 게시글의 게시기간을 시작일과 종요일로 설정하는 api를 작성하시오.
+PATCH http://localhost:8080/api/board/1/publish
+Content-Type: application/json
+
+{
+  "startDate": "2023-12-09",
+  "endDate": "2023-12-10"
+}

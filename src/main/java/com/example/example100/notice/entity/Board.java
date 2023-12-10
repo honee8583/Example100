@@ -1,6 +1,7 @@
 package com.example.example100.notice.entity;
 
 import com.example.example100.user.entity.User;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,4 +37,7 @@ public class Board {
     private boolean topYn;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
+
+    private LocalDate publishStartDate;
+    private LocalDate publishEndDate;
 }
