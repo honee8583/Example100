@@ -1,5 +1,7 @@
 package com.example.example100.notice.controller;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.example100.common.model.ResponseResult;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.BoardType;
@@ -11,6 +13,7 @@ import com.example.example100.notice.model.BoardTypeUpdateInput;
 import com.example.example100.notice.model.ServiceResult;
 import com.example.example100.notice.service.BoardService;
 import com.example.example100.user.model.ResponseMessage;
+import com.example.example100.util.JWTUtils;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -157,6 +161,29 @@ public class BoardController {
     @PatchMapping("/api/board/{id}/publish")
     public ResponseEntity<?> boardPeriod(@PathVariable Long id, @RequestBody BoardPeriod boardPeriod) {
         ServiceResult result = boardService.setBoardPeriod(id, boardPeriod);
+        if (!result.isResult()) {
+            return ResponseResult.fail(result.getMessage());
+        }
+
+        return ResponseResult.success();
+    }
+
+    /**
+     * 70. 게시글의 조회수를 증가시키는 api를 작성하시오.
+     * 동일 사용자에 의한 게시글 조회수 증가를 방지하는 로직 포함.
+     * JWT 인증을 통과한 사용자에 대해서 진행.
+     */
+    @PutMapping("/api/board/{id}/hits")
+    public ResponseEntity<?> boardHits(@PathVariable Long id,
+                                       @RequestHeader("Authorization") String token) {
+        String email = "";
+        try {
+            email = JWTUtils.getIssuer(token);
+        } catch (JWTVerificationException e) {
+            return ResponseResult.fail("토큰 정보가 정확하지 않습니다.");
+        }
+
+        ServiceResult result = boardService.increaseBoardHits(id, email);
         if (!result.isResult()) {
             return ResponseResult.fail(result.getMessage());
         }

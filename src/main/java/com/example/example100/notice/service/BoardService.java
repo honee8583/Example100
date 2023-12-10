@@ -25,4 +25,6 @@ public interface BoardService {
     ServiceResult setBoardTop(Long id, boolean flag);
 
     ServiceResult setBoardPeriod(Long id, BoardPeriod boardPeriod);
+
+    ServiceResult increaseBoardHits(Long id, String email);
 }

@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS USER_ENTITY;
 DROP TABLE IF EXISTS NOTICE_LIKE;
 DROP TABLE IF EXISTS USER_LOGIN_HISTORY;
 DROP TABLE IF EXISTS BOARD_TYPE;
+DROP TABLE IF EXISTS BOARD_HITS;
 
 create table USER_ENTITY
 (
@@ -76,4 +77,14 @@ create table BOARD
     PUBLISH_END_DATE   DATE,
     constraint FK_BOARD_BOARD_TYPE_ID foreign key (BOARD_TYPE_ID) references BOARD_TYPE (ID),
     constraint FK_BOARD_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
+);
+
+create table BOARD_HITS
+(
+    ID        BIGINT auto_increment primary key,
+    BOARD_ID BIGINT,
+    USER_ID   BIGINT,
+    REG_DATE  TIMESTAMP,
+    constraint FK_BOARD_HITS_BOARD_ID foreign key (BOARD_ID) references BOARD (ID),
+    constraint FK_BOARD_HITS_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
 );

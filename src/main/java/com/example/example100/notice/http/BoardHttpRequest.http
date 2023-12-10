@@ -45,3 +45,17 @@ Content-Type: application/json
   "startDate": "2023-12-09",
   "endDate": "2023-12-10"
 }
+
+### 70. 게시글의 조회수 증가
+PUT http://localhost:8080/api/board/1/hits
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyMDkzMjksInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.ckGFavB9XoZo_r80VKag2S_qo1m3o5XXqmOkh8NAUj9KkEIOrfTdtZ-LpBwe-WMeAydB7-yTbulb9V2meIAwvQ
+
+### 70-1 JWT 토큰 생성
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}
