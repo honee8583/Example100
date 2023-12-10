@@ -2,6 +2,7 @@ package com.example.example100.notice.controller;
 
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
 import com.example.example100.notice.model.ServiceResult;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -92,5 +94,19 @@ public class BoardController {
         List<BoardType> boardTypes = boardService.getBoardTypeList();
 
         return ResponseEntity.ok().body(ResponseMessage.success(boardTypes));
+    }
+
+    /**
+     * 65. 게시판 타입의 사용여부를 설정하는 api를 작성하시오.
+     */
+    @PatchMapping("/api/board/type/{id}/using")
+    public ResponseEntity<?> enableBoardType(@PathVariable Long id,
+                                             @RequestBody BoardTypeEnabledInput boardTypeEnabledInput) {
+        ServiceResult result = boardService.updateBoardTypeEnabled(id, boardTypeEnabledInput);
+        if (!result.isResult()) {
+            return new ResponseEntity<>(ResponseMessage.fail(result.getMessage()), HttpStatus.OK);
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

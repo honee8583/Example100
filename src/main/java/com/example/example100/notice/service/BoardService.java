@@ -1,6 +1,7 @@
 package com.example.example100.notice.service;
 
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
 import com.example.example100.notice.model.ServiceResult;
@@ -14,4 +15,6 @@ public interface BoardService {
     ServiceResult deleteBoard(Long id);
 
     List<BoardType> getBoardTypeList();
+
+    ServiceResult updateBoardTypeEnabled(Long id, BoardTypeEnabledInput boardTypeEnabledInput);
 }

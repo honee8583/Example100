@@ -18,6 +18,7 @@ public class BoardType {
     private Long id;
 
     private String boardName;
+    private boolean usingYn;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 }

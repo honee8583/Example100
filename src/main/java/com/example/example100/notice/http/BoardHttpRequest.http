@@ -19,3 +19,11 @@ DELETE http://localhost:8080/api/board/type/1
 
 ### 64. 모든 게시판 타입 목록을 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/board/type/list
+
+### 65. 게시판 타입의 사용여부를 설정하는 api를 작성하시오.
+PATCH http://localhost:8080/api/board/type/1/using
+Content-Type: application/json
+
+{
+  "usingYn": false
+}

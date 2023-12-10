@@ -1,6 +1,7 @@
 package com.example.example100.notice.service.impl;
 
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardTypeEnabledInput;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
 import com.example.example100.notice.model.ServiceResult;
@@ -77,5 +78,19 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardType> getBoardTypeList() {
         return boardTypeRepository.findAll();
+    }
+
+    @Override
+    public ServiceResult updateBoardTypeEnabled(Long id, BoardTypeEnabledInput boardTypeEnabledInput) {
+        Optional<BoardType> boardType = boardTypeRepository.findById(id);
+        if (!boardType.isPresent()) {
+            return ServiceResult.fail("사용여부를 수정할 게시판 타입이 존재하지 않습니다.");
+        }
+
+        BoardType savedBoardType = boardType.get();
+        savedBoardType.setUsingYn(boardTypeEnabledInput.isUsingYn());
+        boardTypeRepository.save(savedBoardType);
+
+        return ServiceResult.success();
     }
 }

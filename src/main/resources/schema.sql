@@ -55,9 +55,10 @@ create table USER_LOGIN_HISTORY
 
 create table BOARD_TYPE
 (
-    ID         BIGINT auto_increment primary key,
-    BOARD_NAME VARCHAR(255),
-    REG_DATE   TIMESTAMP,
+    ID          BIGINT auto_increment primary key,
+    BOARD_NAME  VARCHAR(255),
+    USING_YN    BOOLEAN,
+    REG_DATE    TIMESTAMP,
     UPDATE_DATE TIMESTAMP
 );
 
