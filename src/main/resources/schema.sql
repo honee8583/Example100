@@ -69,6 +69,7 @@ create table BOARD
     BOARD_TYPE_ID BIGINT,
     TITLE         VARCHAR(255),
     CONTENT       VARCHAR(255),
+    TOP_YN        BOOLEAN,
     REG_DATE      TIMESTAMP,
     UPDATE_DATE   TIMESTAMP,
     constraint FK_BOARD_BOARD_TYPE_ID foreign key (BOARD_TYPE_ID) references BOARD_TYPE (ID),

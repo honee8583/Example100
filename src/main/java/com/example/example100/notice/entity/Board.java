@@ -33,6 +33,7 @@ public class Board {
 
     private String title;
     private String content;
+    private boolean topYn;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 }

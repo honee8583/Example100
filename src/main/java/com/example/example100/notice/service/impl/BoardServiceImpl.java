@@ -1,5 +1,6 @@
 package com.example.example100.notice.service.impl;
 
+import com.example.example100.notice.entity.Board;
 import com.example.example100.notice.entity.BoardType;
 import com.example.example100.notice.model.BoardCountResponse;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
@@ -100,5 +101,23 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardCountResponse> getBoardCountByBoardType() {
         return boardTypeCustomRepository.getBoardCountByBoardType();
+    }
+
+    @Override
+    public ServiceResult setBoardTop(Long id) {
+        Optional<Board> board = boardRepository.findById(id);
+        if (!board.isPresent()) {
+            return ServiceResult.fail("게시글이 존재하지 않습니다.");
+        }
+
+        Board savedBoard = board.get();
+        if (savedBoard.isTopYn()) {
+            return ServiceResult.fail("이미 최상단에 위치한 게시글입니다.");
+        }
+
+        savedBoard.setTopYn(true);
+        boardRepository.save(savedBoard);
+
+        return ServiceResult.success();
     }
 }

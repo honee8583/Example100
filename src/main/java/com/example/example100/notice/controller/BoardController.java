@@ -123,4 +123,16 @@ public class BoardController {
         return ResponseEntity.ok().body(boardCountResponses);
     }
 
+    /**
+     * 67. 게시글을 최상단에 배치하는 api를 작성하시오.
+     */
+    @PatchMapping("/api/board/{id}/top")
+    public ResponseEntity<?> setBoardTop(@PathVariable Long id) {
+        ServiceResult result = boardService.setBoardTop(id);
+        if (!result.isResult()) {
+            return new ResponseEntity<>(ResponseMessage.fail(result.getMessage()), HttpStatus.OK);
+        }
+
+        return ResponseEntity.ok().build();
+    }
 }

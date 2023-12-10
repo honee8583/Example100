@@ -20,4 +20,6 @@ public interface BoardService {
     ServiceResult updateBoardTypeEnabled(Long id, BoardTypeEnabledInput boardTypeEnabledInput);
 
     List<BoardCountResponse> getBoardCountByBoardType();
+
+    ServiceResult setBoardTop(Long id);
 }
