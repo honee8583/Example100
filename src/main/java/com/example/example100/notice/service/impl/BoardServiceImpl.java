@@ -1,6 +1,5 @@
 package com.example.example100.notice.service.impl;
 
-import com.example.example100.notice.entity.Board;
 import com.example.example100.notice.entity.BoardType;
 import com.example.example100.notice.model.BoardTypeInput;
 import com.example.example100.notice.model.BoardTypeUpdateInput;
@@ -73,5 +72,10 @@ public class BoardServiceImpl implements BoardService {
         boardTypeRepository.delete(savedBoardType);
 
         return ServiceResult.success();
+    }
+
+    @Override
+    public List<BoardType> getBoardTypeList() {
+        return boardTypeRepository.findAll();
     }
 }

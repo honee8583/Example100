@@ -16,3 +16,6 @@ Content-Type: application/json
 
 ### 63. 게시판 타입을 삭제하는 api를 작성하시오.
 DELETE http://localhost:8080/api/board/type/1
+
+### 64. 모든 게시판 타입 목록을 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/board/type/list
