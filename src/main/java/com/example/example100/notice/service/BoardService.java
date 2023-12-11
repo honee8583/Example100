@@ -1,6 +1,7 @@
 package com.example.example100.notice.service;
 
 import com.example.example100.notice.entity.BoardType;
+import com.example.example100.notice.model.BoardBadReportInput;
 import com.example.example100.notice.model.BoardCountResponse;
 import com.example.example100.notice.model.BoardPeriod;
 import com.example.example100.notice.model.BoardTypeEnabledInput;
@@ -31,4 +32,6 @@ public interface BoardService {
     ServiceResult increaseBoardLike(Long id, String email);
 
     ServiceResult setBoardUnLike(Long id, String email);
+
+    ServiceResult addBadReport(Long id, String email, BoardBadReportInput boardBadReportInput);
 }

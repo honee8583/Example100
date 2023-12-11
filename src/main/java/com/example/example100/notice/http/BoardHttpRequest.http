@@ -78,3 +78,12 @@ Content-Type: application/json
 PUT http://localhost:8080/api/board/1/unlike
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODE2MzUsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.e8BKfT5FGKhJYhPZ9ePGqdlPW5NgA3we_3JZjpwpjwX29bLaCUgl0K2MTTM3yI43jPl1zwm5qW1cMQhZNWAsmw
+
+### 73. 게시글 신고
+PUT http://localhost:8080/api/board/1/badreport
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyOTgzODcsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.4QKcX-4MMJtCNFG_hmAY7KROtAMc7y1xwCku4O8PzZG_NUrVQakj_eQVGFpGB9SYfNF1VQAX-p5TpcsREj7w3g
+
+{
+  "comments": "신고합니다."
+}
