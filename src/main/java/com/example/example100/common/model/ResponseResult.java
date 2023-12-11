@@ -8,8 +8,12 @@ public class ResponseResult {
         return ResponseEntity.badRequest().body(ResponseMessage.fail(message));
     }
 
+    public static ResponseEntity<?> success(Object data) {
+        return ResponseEntity.ok().body(ResponseMessage.success(data));
+    }
+
     public static ResponseEntity<?> success() {
-        return ResponseEntity.ok().body(ResponseMessage.success());
+        return success(null);
     }
 
     public static ResponseEntity<?> result(ServiceResult result) {

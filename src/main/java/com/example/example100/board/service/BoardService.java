@@ -1,5 +1,6 @@
 package com.example.example100.board.service;
 
+import com.example.example100.board.entity.BoardBadReport;
 import com.example.example100.board.entity.BoardType;
 import com.example.example100.board.model.BoardBadReportInput;
 import com.example.example100.board.model.BoardCountResponse;
@@ -34,4 +35,6 @@ public interface BoardService {
     ServiceResult setBoardUnLike(Long id, String email);
 
     ServiceResult addBadReport(Long id, String email, BoardBadReportInput boardBadReportInput);
+
+    List<BoardBadReport> getBadReportList();
 }
