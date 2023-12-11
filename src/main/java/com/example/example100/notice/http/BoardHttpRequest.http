@@ -59,3 +59,17 @@ Content-Type: application/json
   "email": "user1@gmail.com",
   "password": "1111"
 }
+
+### 71. 게시글에 대한 좋아요하기 기능을 수행하는 api를 작성하시오.
+PUT http://localhost:8080/api/board/1/like
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyNzkxNTUsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.LjwzjvhyCsVqogSoAqlNmUUlQM4yXKUDvDMh_QgPiwPFOL3-Nxvr7BefO5w2n-GjRAvDwhjciTFJNs5sWR1LFg
+
+### 71-1 JWT 토큰 생성
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}

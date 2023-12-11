@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS NOTICE_LIKE;
 DROP TABLE IF EXISTS USER_LOGIN_HISTORY;
 DROP TABLE IF EXISTS BOARD_TYPE;
 DROP TABLE IF EXISTS BOARD_HITS;
+DROP TABLE IF EXISTS BOARD_LIKE;
 
 create table USER_ENTITY
 (
@@ -87,4 +88,14 @@ create table BOARD_HITS
     REG_DATE  TIMESTAMP,
     constraint FK_BOARD_HITS_BOARD_ID foreign key (BOARD_ID) references BOARD (ID),
     constraint FK_BOARD_HITS_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
+);
+
+create table BOARD_LIKE
+(
+    ID        BIGINT auto_increment primary key,
+    BOARD_ID BIGINT,
+    USER_ID   BIGINT,
+    REG_DATE  TIMESTAMP,
+    constraint FK_BOARD_LIKE_BOARD_ID foreign key (BOARD_ID) references BOARD (ID),
+    constraint FK_BOARD_LIKE_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
 );
