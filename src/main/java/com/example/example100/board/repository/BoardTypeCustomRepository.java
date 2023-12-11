@@ -1,6 +1,6 @@
-package com.example.example100.notice.repository;
+package com.example.example100.board.repository;
 
-import com.example.example100.notice.model.BoardCountResponse;
+import com.example.example100.board.model.BoardCountResponse;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

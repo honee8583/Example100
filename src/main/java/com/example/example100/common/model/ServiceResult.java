@@ -1,4 +1,4 @@
-package com.example.example100.notice.model;
+package com.example.example100.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

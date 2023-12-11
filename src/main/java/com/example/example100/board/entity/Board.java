@@ -1,4 +1,4 @@
-package com.example.example100.notice.entity;
+package com.example.example100.board.entity;
 
 import com.example.example100.user.entity.User;
 import java.time.LocalDate;

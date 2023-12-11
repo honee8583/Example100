@@ -1,4 +1,4 @@
-package com.example.example100.notice.model;
+package com.example.example100.board.model;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;

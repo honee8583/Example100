@@ -1,4 +1,4 @@
-package com.example.example100.notice.model;
+package com.example.example100.board.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardBadReportInput {
-    private String comments;
+public class BoardTypeEnabledInput {
+    private boolean usingYn;
 }

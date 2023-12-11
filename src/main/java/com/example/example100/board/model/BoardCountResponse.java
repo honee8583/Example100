@@ -1,4 +1,4 @@
-package com.example.example100.notice.model;
+package com.example.example100.board.model;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;

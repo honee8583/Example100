@@ -1,6 +1,5 @@
 package com.example.example100.common.model;
 
-import com.example.example100.notice.model.ServiceResult;
 import com.example.example100.user.model.ResponseMessage;
 import org.springframework.http.ResponseEntity;
 
