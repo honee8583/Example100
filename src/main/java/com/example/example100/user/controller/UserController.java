@@ -4,9 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.example.example100.board.entity.Board;
+import com.example.example100.board.entity.BoardComment;
 import com.example.example100.board.service.BoardService;
 import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ResponseResult;
+import com.example.example100.common.model.ServiceResult;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.entity.NoticeLike;
@@ -17,6 +19,7 @@ import com.example.example100.user.entity.User;
 import com.example.example100.user.exception.PasswordNotMatchException;
 import com.example.example100.user.exception.UserAlreadyExistsException;
 import com.example.example100.user.exception.UserNotFoundException;
+import com.example.example100.user.model.BoardCommentResponse;
 import com.example.example100.user.model.UserFindInput;
 import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLoginInput;
@@ -475,5 +478,21 @@ public class UserController {
     @ExceptionHandler(BizException.class)
     public ResponseEntity<?> bizExceptionHandler(BizException e) {
         return ResponseResult.fail(e.getMessage());
+    }
+
+    /**
+     * 81. 내가 작성한 게시글의 코멘트 목록을 리턴하는 api를 작성하시오.
+     */
+    @GetMapping("/api/user/board/comment")
+    public ResponseEntity<?> getMyComments(@RequestHeader("Authorization") String token) {
+        String email = "";
+        try{
+            email = JWTUtils.getIssuer(token);
+        } catch (JWTDecodeException e) {
+            return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        List<BoardCommentResponse> myBoardComments = boardService.getMyBoardCommentList(email);
+        return ResponseResult.success(myBoardComments);
     }
 }

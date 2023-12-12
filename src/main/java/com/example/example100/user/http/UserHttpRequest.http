@@ -133,3 +133,7 @@ Authorization: aeyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4NjAyNzEsInV
 ### 80. 자신의 게시글 목록을 리턴하는 api를 작성하시오.
 GET http://localhost:8080/api/user/board/myboard
 Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzc0MDksInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.W8NoiJMvFFW7zvGA-m--yPvrXXeAZ65LlhpDM7wRH5NPEMApCAN-CUQS3Ran-s_wq2_IyXRc2BcYfQEeJzcoOQ
+
+### 81. 자신이 작성한 게시글의 코멘트 목록을 리턴
+GET http://localhost:8080/api/user/board/comment
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzODEwNjgsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.ZnNj2ifefTyPVGVKNFkHr5_L8fFqIzczmOLzYvxDHBgVWfsXDb6l3gR6de4ojv4nm339HzVPihH8BafzFw1PTQ

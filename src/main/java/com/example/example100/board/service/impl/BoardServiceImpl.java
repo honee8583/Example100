@@ -3,6 +3,7 @@ package com.example.example100.board.service.impl;
 import com.example.example100.board.entity.Board;
 import com.example.example100.board.entity.BoardBadReport;
 import com.example.example100.board.entity.BoardBookmark;
+import com.example.example100.board.entity.BoardComment;
 import com.example.example100.board.entity.BoardHits;
 import com.example.example100.board.entity.BoardLike;
 import com.example.example100.board.entity.BoardScrap;
@@ -14,6 +15,7 @@ import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
 import com.example.example100.board.model.BoardTypeUpdateInput;
 import com.example.example100.board.repository.BoardBookmarkRepository;
+import com.example.example100.board.repository.BoardCommentRepository;
 import com.example.example100.board.repository.BoardScrapRepository;
 import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ServiceResult;
@@ -25,10 +27,12 @@ import com.example.example100.board.repository.BoardTypeCustomRepository;
 import com.example.example100.board.repository.BoardTypeRepository;
 import com.example.example100.board.service.BoardService;
 import com.example.example100.user.entity.User;
+import com.example.example100.user.model.BoardCommentResponse;
 import com.example.example100.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +48,7 @@ public class BoardServiceImpl implements BoardService {
     private final BoardBadReportRepository boardBadReportRepository;
     private final BoardScrapRepository boardScrapRepository;
     private final BoardBookmarkRepository boardBookmarkRepository;
+    private final BoardCommentRepository boardCommentRepository;
 
     @Override
     public ServiceResult addBoard(BoardTypeInput boardTypeInput) {
@@ -392,5 +397,19 @@ public class BoardServiceImpl implements BoardService {
         User savedUser = user.get();
 
         return boardRepository.findByUser(savedUser);
+    }
+
+    @Override
+    public List<BoardCommentResponse> getMyBoardCommentList(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new BizException("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        List<BoardComment> boardComments =  boardCommentRepository.findByUser(savedUser);
+
+        return boardComments.stream().map(BoardCommentResponse::of)
+                .collect(Collectors.toList());
     }
 }

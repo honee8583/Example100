@@ -10,6 +10,7 @@ import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
 import com.example.example100.board.model.BoardTypeUpdateInput;
 import com.example.example100.common.model.ServiceResult;
+import com.example.example100.user.model.BoardCommentResponse;
 import java.util.List;
 
 public interface BoardService {
@@ -48,4 +49,6 @@ public interface BoardService {
     ServiceResult removeBookmark(Long id, String email);
 
     List<Board> getMyBoardList(String email);
+
+    List<BoardCommentResponse> getMyBoardCommentList(String email);
 }
