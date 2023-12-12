@@ -92,4 +92,27 @@ public class UserServiceImpl implements UserService {
 
         return ServiceResult.success();
     }
+
+    @Override
+    public ServiceResult removeInterestUser(Long id, String email) {
+        Optional<UserInterest> userInterest = userInterestRepository.findById(id);
+        if (!userInterest.isPresent()) {
+            return ServiceResult.fail("관심사용자목록에 등록되어 있지 않습니다.");
+        }
+        UserInterest savedUserInterest = userInterest.get();
+
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            return ServiceResult.fail("사용자가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        if (savedUserInterest.getUser().getId() != savedUser.getId()) {
+            return ServiceResult.fail("본인이 등록한 관심사용자가 아닙니다.");
+        }
+
+        userInterestRepository.delete(savedUserInterest);
+
+        return ServiceResult.success();
+    }
 }
