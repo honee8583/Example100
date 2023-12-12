@@ -1,0 +1,12 @@
+### 토큰 생성 (유효기간 : 1분)
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}
+
+### 75. 게시글의 스크랩 추가
+PUT http://localhost:8080/api/board/1/scrap
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzAzNTUsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.4tpoWLV5nPAfp5ae9tsghditEw6YjN5pSHZPgpTlz4RtDcLxLcjXLmE3HVFTClqUmH095H0y7qwi3AgKxE4xxQ

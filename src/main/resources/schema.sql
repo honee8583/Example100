@@ -114,4 +114,18 @@ create table BOARD_BAD_REPORT
     BOARD_REG_DATE TIMESTAMP,
     COMMENTS       VARCHAR(255),
     REG_DATE       TIMESTAMP
-)
+);
+
+create table BOARD_SCRAP
+(
+    ID             BIGINT auto_increment primary key,
+    USER_ID        BIGINT,
+    BOARD_ID       BIGINT,
+    BOARD_TYPE_ID  BIGINT,
+    BOARD_USER_ID  BIGINT,
+    BOARD_TITLE    VARCHAR(255),
+    BOARD_CONTENTS VARCHAR(255),
+    BOARD_REG_DATE TIMESTAMP,
+    REG_DATE       TIMESTAMP,
+    constraint FK_BOARD_SCRAP_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
+);

@@ -4,6 +4,7 @@ import com.example.example100.board.entity.Board;
 import com.example.example100.board.entity.BoardBadReport;
 import com.example.example100.board.entity.BoardHits;
 import com.example.example100.board.entity.BoardLike;
+import com.example.example100.board.entity.BoardScrap;
 import com.example.example100.board.entity.BoardType;
 import com.example.example100.board.model.BoardBadReportInput;
 import com.example.example100.board.model.BoardCountResponse;
@@ -11,6 +12,7 @@ import com.example.example100.board.model.BoardPeriod;
 import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
 import com.example.example100.board.model.BoardTypeUpdateInput;
+import com.example.example100.board.repository.BoardScrapRepository;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.board.repository.BoardBadReportRepository;
 import com.example.example100.board.repository.BoardHitsRepository;
@@ -37,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
     private final BoardHitsRepository boardHitsRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final BoardBadReportRepository boardBadReportRepository;
+    private final BoardScrapRepository boardScrapRepository;
 
     @Override
     public ServiceResult addBoard(BoardTypeInput boardTypeInput) {
@@ -269,5 +272,34 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardBadReport> getBadReportList() {
         return boardBadReportRepository.findAll();
+    }
+
+    @Override
+    public ServiceResult scrapBoard(Long id, String email) {
+        Optional<Board> board = boardRepository.findById(id);
+        if (!board.isPresent()) {
+            return ServiceResult.fail("게시글이 존재하지 않습니다.");
+        }
+        Board savedBoard = board.get();
+
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            return ServiceResult.fail("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        BoardScrap boardScrap = BoardScrap.builder()
+                .user(savedUser)
+                .boardId(savedBoard.getId())
+                .boardTypeId(savedBoard.getBoardType().getId())
+                .boardUserId(savedBoard.getUser().getId())
+                .boardTitle(savedBoard.getTitle())
+                .boardContents(savedBoard.getContent())
+                .boardRegDate(savedBoard.getRegDate())
+                .regDate(LocalDateTime.now())
+                .build();
+        boardScrapRepository.save(boardScrap);
+
+        return ServiceResult.success();
     }
 }
