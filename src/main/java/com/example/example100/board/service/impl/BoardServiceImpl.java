@@ -2,6 +2,7 @@ package com.example.example100.board.service.impl;
 
 import com.example.example100.board.entity.Board;
 import com.example.example100.board.entity.BoardBadReport;
+import com.example.example100.board.entity.BoardBookmark;
 import com.example.example100.board.entity.BoardHits;
 import com.example.example100.board.entity.BoardLike;
 import com.example.example100.board.entity.BoardScrap;
@@ -12,6 +13,7 @@ import com.example.example100.board.model.BoardPeriod;
 import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
 import com.example.example100.board.model.BoardTypeUpdateInput;
+import com.example.example100.board.repository.BoardBookmarkRepository;
 import com.example.example100.board.repository.BoardScrapRepository;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.board.repository.BoardBadReportRepository;
@@ -40,6 +42,7 @@ public class BoardServiceImpl implements BoardService {
     private final BoardLikeRepository boardLikeRepository;
     private final BoardBadReportRepository boardBadReportRepository;
     private final BoardScrapRepository boardScrapRepository;
+    private final BoardBookmarkRepository boardBookmarkRepository;
 
     @Override
     public ServiceResult addBoard(BoardTypeInput boardTypeInput) {
@@ -324,5 +327,58 @@ public class BoardServiceImpl implements BoardService {
         boardScrapRepository.delete(savedBoardScrap);
 
         return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult addBookmark(Long id, String email) {
+        Optional<Board> board = boardRepository.findById(id);
+        if (!board.isPresent()) {
+            return ServiceResult.fail("게시글이 존재하지 않습니다.");
+        }
+        Board savedBoard = board.get();
+
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            return ServiceResult.fail("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        BoardBookmark boardBookmark = BoardBookmark.builder()
+                .user(savedUser)
+                .boardId(savedBoard.getId())
+                .boardTitle(savedBoard.getTitle())
+                .boardTypeId(savedBoard.getBoardType().getId())
+                .boardUrl(getBoardUrl(savedBoard.getId()))
+                .regDate(LocalDateTime.now())
+                .build();
+        boardBookmarkRepository.save(boardBookmark);
+
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult removeBookmark(Long id, String email) {
+        Optional<BoardBookmark> boardBookmark = boardBookmarkRepository.findById(id);
+        if (!boardBookmark.isPresent()) {
+            return ServiceResult.fail("북마크가 존재하지 않습니다.");
+        }
+        BoardBookmark savedBoardBookmark = boardBookmark.get();
+
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            return ServiceResult.fail("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        if (savedBoardBookmark.getUser().getId() != savedUser.getId()) {
+            return ServiceResult.fail("본인의 북마크만 삭제할 수 있습니다.");
+        }
+        boardBookmarkRepository.delete(savedBoardBookmark);
+
+        return ServiceResult.success();
+    }
+
+    private String getBoardUrl(Long boardId) {
+        return String.format("/board/%d", boardId);
     }
 }

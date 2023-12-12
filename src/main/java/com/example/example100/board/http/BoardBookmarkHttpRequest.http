@@ -1,0 +1,16 @@
+### 토큰 생성 (유효기간 : 1분)
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}
+
+### 77-1. 게시글의 북마크 생성
+PUT http://localhost:8080/api/board/1/bookmark
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzM3MTUsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.ghHhzTpxRU6fbcF3QiaNcqFbsRMdJzyf1AlTQ812hb1LW3RfeiwXAtn4WkCStXN1kGcdYan83ghwynzaw9qilQ
+
+### 77-2. 게시글의 북마크 삭제
+DELETE http://localhost:8080/api/bookmark/2
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzM3MzcsInVzZXJfaWQiOjIsInN1YiI6InVzZXIyIiwiaXNzIjoidXNlcjJAZ21haWwuY29tIn0.0nLg5-xoO5OmsBMy0VRrfx9EmCrfKfYap3l7q6Pcdbb_7vVAjHG0HZs6jTMYsPBZX3jeLmFVYjv-PQhOGxPruQ
