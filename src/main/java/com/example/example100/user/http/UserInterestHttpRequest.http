@@ -1,0 +1,12 @@
+### 토큰 생성 (유효기간 : 1일)
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}
+
+### 78. 관심사용자 등록
+PUT http://localhost:8080/api/user/2/interest
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzYwOTMsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.xhPKUJ-ZrdhZwmMArh3j512LAtx8f1WfMJx0C00eNsiNrLutXG6mwKwKEpKl5PBpir0SkxwyGAYPBTbiiRQT7A

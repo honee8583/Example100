@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS BOARD_LIKE;
 DROP TABLE IF EXISTS BOARD_BAD_REPORT;
 DROP TABLE IF EXISTS BOARD_SCRAP;
 DROP TABLE IF EXISTS BOARD_BOOKMARK;
+DROP TABLE IF EXISTS USER_INTEREST;
 
 create table USER_ENTITY
 (
@@ -142,4 +143,14 @@ create table BOARD_BOOKMARK
     BOARD_URL      VARCHAR(255),
     REG_DATE       TIMESTAMP,
     constraint FK_BOARD_BOOKMARK_USER_ID foreign key (USER_ID) references USER_ENTITY (ID)
+);
+
+create table USER_INTEREST
+(
+    ID               BIGINT auto_increment primary key,
+    USER_ID          BIGINT,
+    INTEREST_USER_ID BIGINT,
+    REG_DATE         TIMESTAMP,
+    constraint FK_USER_INTEREST_USER_ID foreign key (USER_ID) references USER_ENTITY (ID),
+    constraint FK_USER_INTEREST_INTEREST_USER_ID foreign key (INTEREST_USER_ID) references USER_ENTITY (ID)
 );

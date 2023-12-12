@@ -1,4 +1,4 @@
-### 토큰 생성 (유효기간 : 1분)
+### 토큰 생성 (유효기간 : 1일)
 POST http://localhost:8080/api/user/login3
 Content-Type: application/json
 
