@@ -13,7 +13,7 @@ public class JWTUtils {
 
     public static String createToken(User user) {
         return JWT.create()
-                .withExpiresAt(java.sql.Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)))
+                .withExpiresAt(java.sql.Timestamp.valueOf(LocalDateTime.now().plusDays(1)))
                 .withClaim(CLAIM_ID, user.getId())
                 .withSubject(user.getUserName())
                 .withIssuer(user.getEmail())
