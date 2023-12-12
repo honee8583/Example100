@@ -15,6 +15,7 @@ import com.example.example100.board.model.BoardTypeInput;
 import com.example.example100.board.model.BoardTypeUpdateInput;
 import com.example.example100.board.repository.BoardBookmarkRepository;
 import com.example.example100.board.repository.BoardScrapRepository;
+import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.board.repository.BoardBadReportRepository;
 import com.example.example100.board.repository.BoardHitsRepository;
@@ -380,5 +381,16 @@ public class BoardServiceImpl implements BoardService {
 
     private String getBoardUrl(Long boardId) {
         return String.format("/board/%d", boardId);
+    }
+
+    @Override
+    public List<Board> getMyBoardList(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new BizException("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        return boardRepository.findByUser(savedUser);
     }
 }

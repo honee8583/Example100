@@ -3,6 +3,10 @@ package com.example.example100.user.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.example.example100.board.entity.Board;
+import com.example.example100.board.service.BoardService;
+import com.example.example100.common.exception.BizException;
+import com.example.example100.common.model.ResponseResult;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.notice.entity.Notice;
 import com.example.example100.notice.entity.NoticeLike;
@@ -60,6 +64,8 @@ public class UserController {
     private final UserRepository userRepository;
     private final NoticeRepository noticeRepository;
     private final NoticeLikeRepository noticeLikeRepository;
+
+    private final BoardService boardService;
 
     /**
      * 31. 사용자 등록시 입력값이 유효하지 않은 경우 예외를 발생시키는 기능을 작성하시오.
@@ -448,5 +454,26 @@ public class UserController {
         // 토큰삭제 관련 로직 추가 (쿠키, 세션 삭제 등등)
 
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 80. 내가 작성한 게시글 목록을 리턴하는 api를 작성하시오.
+     */
+    @GetMapping("/api/user/board/myboard")
+    public ResponseEntity<?> getMyBoards(@RequestHeader("Authorization") String token) {
+        String email = "";
+        try{
+            email = JWTUtils.getIssuer(token);
+        } catch (JWTDecodeException e) {
+            return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        List<Board> myBoards = boardService.getMyBoardList(email);
+        return ResponseResult.success(myBoards);
+    }
+
+    @ExceptionHandler(BizException.class)
+    public ResponseEntity<?> bizExceptionHandler(BizException e) {
+        return ResponseResult.fail(e.getMessage());
     }
 }

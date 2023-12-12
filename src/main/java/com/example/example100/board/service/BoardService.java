@@ -1,5 +1,6 @@
 package com.example.example100.board.service;
 
+import com.example.example100.board.entity.Board;
 import com.example.example100.board.entity.BoardBadReport;
 import com.example.example100.board.entity.BoardType;
 import com.example.example100.board.model.BoardBadReportInput;
@@ -45,4 +46,6 @@ public interface BoardService {
     ServiceResult addBookmark(Long id, String email);
 
     ServiceResult removeBookmark(Long id, String email);
+
+    List<Board> getMyBoardList(String email);
 }

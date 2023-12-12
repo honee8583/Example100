@@ -129,3 +129,7 @@ Authorization: aeyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4NjAyNzEsInV
 ### 47. JWT토큰을 삭제하는 api를 작성하시오.
 DELETE http://localhost:8080/api/user/login
 Authorization: aeyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4NjAyNzEsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.zMRNjrTJxpz19zE_3_s5CTKlDHX-NfsyvZBwBWUsjQEH1QtS7RRlAoswA9m-SNHhd2NzPKgpdzQ_jWOIYp-Oyw
+
+### 80. 자신의 게시글 목록을 리턴하는 api를 작성하시오.
+GET http://localhost:8080/api/user/board/myboard
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzc0MDksInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.W8NoiJMvFFW7zvGA-m--yPvrXXeAZ65LlhpDM7wRH5NPEMApCAN-CUQS3Ran-s_wq2_IyXRc2BcYfQEeJzcoOQ
