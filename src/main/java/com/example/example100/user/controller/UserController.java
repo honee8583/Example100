@@ -25,9 +25,11 @@ import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserLoginToken;
 import com.example.example100.user.model.UserPasswordUpdateInput;
+import com.example.example100.user.model.UserPointInput;
 import com.example.example100.user.model.UserResponse;
 import com.example.example100.user.model.UserUpdateInput;
 import com.example.example100.user.repository.UserRepository;
+import com.example.example100.user.service.PointService;
 import com.example.example100.util.JWTUtils;
 import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
@@ -69,6 +71,7 @@ public class UserController {
     private final NoticeLikeRepository noticeLikeRepository;
 
     private final BoardService boardService;
+    private final PointService pointService;
 
     /**
      * 31. 사용자 등록시 입력값이 유효하지 않은 경우 예외를 발생시키는 기능을 작성하시오.
@@ -401,12 +404,7 @@ public class UserController {
             throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
         }
 
-        String token = JWT.create()
-                .withExpiresAt(java.sql.Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)))
-                .withClaim("user_id", user.getId())
-                .withSubject(user.getUserName())
-                .withIssuer(user.getEmail())
-                .sign(Algorithm.HMAC512(TOKEN_KEY.getBytes()));
+        String token = JWTUtils.createToken(user);
 
         return ResponseEntity.ok().body(UserLoginToken.builder().token(token).build());
     }
@@ -494,5 +492,21 @@ public class UserController {
 
         List<BoardCommentResponse> myBoardComments = boardService.getMyBoardCommentList(email);
         return ResponseResult.success(myBoardComments);
+    }
+
+    /**
+     * 82. 사용자의 포인트 정보를 만들고 게시글을 작성할 경우 포인트를 누적하는 api를 작성하시오.
+     */
+    @PostMapping("/api/user/point")
+    public ResponseEntity<?> userPoint(@RequestHeader("Authorization") String token,
+                                       @RequestBody UserPointInput userPointInput) {
+        String email = "";
+        try{
+            email = JWTUtils.getIssuer(token);
+        } catch (JWTDecodeException e) {
+            return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseResult.result(pointService.addPoint(email, userPointInput));
     }
 }

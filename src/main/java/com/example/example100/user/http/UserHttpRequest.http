@@ -137,3 +137,12 @@ Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzNzc0MDksInVz
 ### 81. 자신이 작성한 게시글의 코멘트 목록을 리턴
 GET http://localhost:8080/api/user/board/comment
 Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIzODEwNjgsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.ZnNj2ifefTyPVGVKNFkHr5_L8fFqIzczmOLzYvxDHBgVWfsXDb6l3gR6de4ojv4nm339HzVPihH8BafzFw1PTQ
+
+### 82. 사용자의 포인트 정보를 만들고 게시글을 작성할 경우 포인트를 누적
+POST http://localhost:8080/api/user/point
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1NDU2NTEsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.j1P10TrJKrhhCfLisuGejjXifp620JZcBjYlKsFYRrIOYgYV13fVhqMqCNynppcQ8sezpjyIkoIopKkJk1jm-Q
+
+{
+  "userPointType": "USER_REGISTER"
+}
