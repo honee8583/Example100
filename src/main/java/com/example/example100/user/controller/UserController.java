@@ -404,9 +404,9 @@ public class UserController {
             throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
         }
 
-        String token = JWTUtils.createToken(user);
+        UserLoginToken token = JWTUtils.createToken(user);
 
-        return ResponseEntity.ok().body(UserLoginToken.builder().token(token).build());
+        return ResponseEntity.ok().body(token);
     }
 
     /**

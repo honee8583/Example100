@@ -1,9 +1,11 @@
 package com.example.example100.user.service.impl;
 
+import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.entity.UserInterest;
 import com.example.example100.user.model.UserLogCount;
+import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserNoticeCount;
 import com.example.example100.user.model.UserStatus;
 import com.example.example100.user.model.UserSummary;
@@ -11,6 +13,7 @@ import com.example.example100.user.repository.UserCustomRepository;
 import com.example.example100.user.repository.UserInterestRepository;
 import com.example.example100.user.repository.UserRepository;
 import com.example.example100.user.service.UserService;
+import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -114,5 +117,20 @@ public class UserServiceImpl implements UserService {
         userInterestRepository.delete(savedUserInterest);
 
         return ServiceResult.success();
+    }
+
+    @Override
+    public User login(UserLoginInput userLoginInput) {
+        Optional<User> user = userRepository.findByEmail(userLoginInput.getEmail());
+        if (!user.isPresent()) {
+            throw new BizException("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        if (!PasswordUtils.equalPassword(userLoginInput.getPassword(), savedUser.getPassword())) {
+            throw new BizException("일치하는 정보가 없습니다.");
+        }
+
+        return savedUser;
     }
 }
