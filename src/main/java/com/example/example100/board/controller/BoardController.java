@@ -1,6 +1,8 @@
 package com.example.example100.board.controller;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.example.example100.board.entity.Board;
+import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ResponseResult;
 import com.example.example100.error.ErrorResponse;
 import com.example.example100.board.entity.BoardType;
@@ -244,5 +246,20 @@ public class BoardController {
         ServiceResult result = boardService.addBadReport(id, email, boardBadReportInput);
 
         return ResponseResult.result(result);
+    }
+
+    /**
+     * 85. AOP의 Around를 이용하여 게시판 상세 조회에 대한 히스토리를 기록하는 기능을 작성하시오.
+     */
+    @GetMapping("/api/board/{id}")
+    public ResponseEntity<?> detail(@PathVariable Long id) {
+        Board board = null;
+        try {
+            board = boardService.detail(id);
+        } catch (BizException e) {
+            return ResponseResult.fail(e.getMessage());
+        }
+
+        return ResponseResult.success(board);
     }
 }

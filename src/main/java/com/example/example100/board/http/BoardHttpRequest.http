@@ -87,3 +87,6 @@ Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyOTgzODcsInVz
 {
   "comments": "신고합니다."
 }
+
+### 85. 게시판 상세조회내역 로깅
+GET http://localhost:8080/api/board/1

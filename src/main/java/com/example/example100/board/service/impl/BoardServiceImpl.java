@@ -412,4 +412,14 @@ public class BoardServiceImpl implements BoardService {
         return boardComments.stream().map(BoardCommentResponse::of)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Board detail(Long id) {
+        Optional<Board> board = boardRepository.findById(id);
+        if (!board.isPresent()) {
+            throw new BizException("게시판 정보가 존재하지 않습니다.");
+        }
+
+        return board.get();
+    }
 }
