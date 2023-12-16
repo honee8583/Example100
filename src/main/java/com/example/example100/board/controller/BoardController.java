@@ -262,4 +262,14 @@ public class BoardController {
 
         return ResponseResult.success(board);
     }
+
+    /**
+     * 92. 인터셉터를 이용하여 API 요청에 대한 정보를 LOG에 기록하는 기능을 작성하시오.
+     */
+    @GetMapping("/api/board")
+    public ResponseEntity<?> list() {
+        List<Board> boards = boardService.list();
+
+        return ResponseResult.success(boards);
+    }
 }

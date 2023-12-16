@@ -422,4 +422,9 @@ public class BoardServiceImpl implements BoardService {
 
         return board.get();
     }
+
+    @Override
+    public List<Board> list() {
+        return boardRepository.findAll();
+    }
 }
