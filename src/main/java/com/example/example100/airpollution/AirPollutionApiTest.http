@@ -1,0 +1,15 @@
+### XMLMapper를 사용해서 Xml형식 파싱하기
+GET http://localhost:8080/api/airpollution
+Content-Type: application/json
+
+{
+  "sidoName": "서울"
+}
+
+### JAXB와 Unmarshaller 사용해서 Xml형식 파싱하기
+GET http://localhost:8080/api/airpollution2
+Content-Type: application/json
+
+{
+"sidoName": "서울"
+}

@@ -39,6 +39,16 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.4.0'
 
     implementation 'ch.simas.qlrm:qlrm:1.7.1'
+
+    // XML
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.16.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.0'
+
+    // XML Parcing
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
+    implementation 'org.glassfish.jaxb:jaxb-core:2.3.0.1'
 }
 
 tasks.named('test') {
