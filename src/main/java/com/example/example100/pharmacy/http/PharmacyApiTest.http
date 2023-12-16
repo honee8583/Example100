@@ -1,0 +1,2 @@
+### 86. 전국약국조회결과 문자열로 반환
+GET http://localhost:8080/api/pharmacy
