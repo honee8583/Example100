@@ -3,3 +3,6 @@ GET http://localhost:8080/api/pharmacy
 
 ### 87. 전국약국조회결과 모델로 매핑하여 반환
 GET http://localhost:8080/api/pharmacy2
+
+### 88. 시도/군구로 전국약국 조회 기능
+GET http://localhost:8080/api/pharmacy3
