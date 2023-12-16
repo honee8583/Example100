@@ -1,2 +1,5 @@
 ### 86. 전국약국조회결과 문자열로 반환
 GET http://localhost:8080/api/pharmacy
+
+### 87. 전국약국조회결과 모델로 매핑하여 반환
+GET http://localhost:8080/api/pharmacy2
