@@ -1,0 +1,7 @@
+### Naver Open Api 번역 기능 테스트
+GET http://localhost:8080/api/translate
+Content-Type: application/json
+
+{
+  "text": "안녕하세요"
+}
