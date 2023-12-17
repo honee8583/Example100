@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Slf4j
 @Component
 public class CommonInterceptor implements HandlerInterceptor {
-    private final String AUTH_HEADER = "AUthorization";
+    private final String AUTH_HEADER = "Authorization";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

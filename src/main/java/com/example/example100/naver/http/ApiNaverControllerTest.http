@@ -1,6 +1,16 @@
-### Naver Open Api 번역 기능 테스트
+### JWT 토큰 생성
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "1111"
+}
+
+### Naver Open Api 번역
 GET http://localhost:8080/api/translate
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDU0Nzg3MjIsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.ItDgFiTz8N1yw9XMjI_72CqZgSOtbcGC2NsaGlC59YYzsHX8TP4oxp6AhF2mmmzdqQzeRy7ttxZROCj6mEB2lA
 
 {
   "text": "안녕하세요"
