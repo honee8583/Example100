@@ -2,6 +2,8 @@ package com.example.example100.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.example.example100.common.model.ResponseResult;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.model.UserLoginToken;
 import java.time.LocalDateTime;
@@ -34,5 +36,15 @@ public class JWTUtils {
                 .build()
                 .verify(token)
                 .getIssuer();
+    }
+
+    public static boolean validJWT(String token) {
+        String email = "";
+        try {
+            email = JWTUtils.getIssuer(token);
+        } catch (JWTVerificationException e) {
+            return false;
+        }
+        return true;
     }
 }

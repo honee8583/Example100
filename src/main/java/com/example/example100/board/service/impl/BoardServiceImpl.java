@@ -10,6 +10,7 @@ import com.example.example100.board.entity.BoardScrap;
 import com.example.example100.board.entity.BoardType;
 import com.example.example100.board.model.BoardBadReportInput;
 import com.example.example100.board.model.BoardCountResponse;
+import com.example.example100.board.model.BoardInput;
 import com.example.example100.board.model.BoardPeriod;
 import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.convert.Jsr310Converters.LocalDateTimeToDateConverter;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -426,5 +428,30 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> list() {
         return boardRepository.findAll();
+    }
+
+    @Override
+    public ServiceResult add(String email, BoardInput boardInput) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new BizException("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        Optional<BoardType> boardType = boardTypeRepository.findById(boardInput.getBoardType());
+        if (!boardType.isPresent()) {
+            return ServiceResult.fail("존재하지 않는 게시판 타입입니다.");
+        }
+
+        Board board = Board.builder()
+                .user(savedUser)
+                .boardType(boardType.get())
+                .title(boardInput.getTitle())
+                .content(boardInput.getContents())
+                .regDate(LocalDateTime.now())
+                .build();
+        boardRepository.save(board);
+
+        return ServiceResult.success();
     }
 }

@@ -5,6 +5,7 @@ import com.example.example100.board.entity.BoardBadReport;
 import com.example.example100.board.entity.BoardType;
 import com.example.example100.board.model.BoardBadReportInput;
 import com.example.example100.board.model.BoardCountResponse;
+import com.example.example100.board.model.BoardInput;
 import com.example.example100.board.model.BoardPeriod;
 import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
@@ -55,4 +56,6 @@ public interface BoardService {
     Board detail(Long id);
 
     List<Board> list();
+
+    ServiceResult add(String email, BoardInput boardInput);
 }

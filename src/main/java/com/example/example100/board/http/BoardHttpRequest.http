@@ -93,3 +93,14 @@ GET http://localhost:8080/api/board/1
 
 ### 92. 게시판 목록 리턴
 GET http://localhost:8080/api/board
+
+### 93. 게시글 등록
+POST http://localhost:8080/api/board
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDU0Nzg3MjIsInVzZXJfaWQiOjEsInN1YiI6InVzZXIxIiwiaXNzIjoidXNlcjFAZ21haWwuY29tIn0.ItDgFiTz8N1yw9XMjI_72CqZgSOtbcGC2NsaGlC59YYzsHX8TP4oxp6AhF2mmmzdqQzeRy7ttxZROCj6mEB2lA
+
+{
+  "boardType": 1,
+  "title": "게시글 제목입니다.",
+  "contents": "게시글 내용입니다."
+}

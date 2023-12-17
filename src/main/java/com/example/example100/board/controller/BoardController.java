@@ -2,6 +2,7 @@ package com.example.example100.board.controller;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.example100.board.entity.Board;
+import com.example.example100.board.model.BoardInput;
 import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ResponseResult;
 import com.example.example100.error.ErrorResponse;
@@ -271,5 +272,16 @@ public class BoardController {
         List<Board> boards = boardService.list();
 
         return ResponseResult.success(boards);
+    }
+
+    /**
+     * 93. 인터셉터를 활용하여 JWT 인증이 필요한 API에 대해서 토큰 유효성을 검증하는 API를 작성하시오.
+     */
+    @PostMapping("/api/board")
+    public ResponseEntity<?> addBoard(@RequestHeader("Authorization") String token,
+                                      @RequestBody BoardInput boardInput) {
+        String email = JWTUtils.getIssuer(token);
+        ServiceResult result = boardService.add(email, boardInput);
+        return ResponseResult.result(result);
     }
 }
