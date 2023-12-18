@@ -146,3 +146,14 @@ Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1NDU2NTEsInVz
 {
   "userPointType": "USER_REGISTER"
 }
+
+### 95. 회원가입을 시도한 사용자에게 이메일 전송
+POST http://localhost:8080/api/public/user
+Content-Type: application/json
+
+{
+  "email": "user5@gmail.com",
+  "userName": "user5",
+  "password": "1111",
+  "phone": "010-1234-5678"
+}

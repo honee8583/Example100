@@ -1,9 +1,12 @@
 package com.example.example100.user.service.impl;
 
+import com.example.example100.common.MailComponent;
 import com.example.example100.common.exception.BizException;
+import com.example.example100.common.model.JoinSuccessMailForm;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.entity.UserInterest;
+import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLogCount;
 import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserNoticeCount;
@@ -26,6 +29,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserCustomRepository userCustomRepository;
     private final UserInterestRepository userInterestRepository;
+
+    private final MailComponent mailComponent;
 
     @Override
     public UserSummary getUserStatusCount() {
@@ -132,5 +137,33 @@ public class UserServiceImpl implements UserService {
         }
 
         return savedUser;
+    }
+
+    @Override
+    public ServiceResult addUser(UserInput userInput) {
+        Optional<User> savedUser = userRepository.findByEmail(userInput.getEmail());
+        if (savedUser.isPresent()) {
+            throw new BizException("이미 가입된 이메일입니다.");
+        }
+
+        User user = User.builder()
+                .email(userInput.getEmail())
+                .userName(userInput.getUserName())
+                .password(PasswordUtils.encryptPassword(userInput.getPassword()))
+                .phone(userInput.getPhone())
+                .status(UserStatus.USING)
+                .regDate(LocalDateTime.now())
+                .build();
+        userRepository.save(user);
+
+        // 메일 전송
+        JoinSuccessMailForm mailForm = JoinSuccessMailForm.builder()
+                .toEmail(user.getEmail())
+                .toName(user.getUserName())
+                .build();
+
+        mailComponent.send(mailForm);
+
+        return ServiceResult.success();
     }
 }

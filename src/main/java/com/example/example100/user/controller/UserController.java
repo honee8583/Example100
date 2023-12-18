@@ -30,6 +30,7 @@ import com.example.example100.user.model.UserResponse;
 import com.example.example100.user.model.UserUpdateInput;
 import com.example.example100.user.repository.UserRepository;
 import com.example.example100.user.service.PointService;
+import com.example.example100.user.service.UserService;
 import com.example.example100.util.JWTUtils;
 import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
@@ -72,6 +73,7 @@ public class UserController {
 
     private final BoardService boardService;
     private final PointService pointService;
+    private final UserService userService;
 
     /**
      * 31. 사용자 등록시 입력값이 유효하지 않은 경우 예외를 발생시키는 기능을 작성하시오.
@@ -509,4 +511,14 @@ public class UserController {
 
         return ResponseResult.result(pointService.addPoint(email, userPointInput));
     }
+
+    /**
+     *
+     */
+    @PostMapping("/api/public/user")
+    public ResponseEntity<?> addUserPublic(@RequestBody UserInput userInput) {
+        ServiceResult result = userService.addUser(userInput);
+        return ResponseResult.result(result);
+    }
+
 }

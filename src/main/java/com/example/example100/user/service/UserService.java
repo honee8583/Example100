@@ -2,6 +2,7 @@ package com.example.example100.user.service;
 
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.user.entity.User;
+import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLogCount;
 import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserNoticeCount;
@@ -27,4 +28,6 @@ public interface UserService {
     ServiceResult removeInterestUser(Long id, String email);
 
     User login(UserLoginInput userLoginInput);
+
+    ServiceResult addUser(UserInput userInput);
 }
