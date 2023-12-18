@@ -166,13 +166,19 @@ public class UserServiceImpl implements UserService {
                 .build();
         userRepository.save(user);
 
-        // 메일 전송
-        JoinSuccessMailForm mailForm = JoinSuccessMailForm.builder()
-                .toEmail(user.getEmail())
-                .toName(user.getUserName())
-                .build();
+        Optional<MailTemplate> template = mailTemplateRepository.findByTemplateId(USER_JOIN_TEMPLATE_ID);
+        template.ifPresent(e -> {
+            MailInput mailInput = MailInput.builder()
+                    .title(e.getTitle().replaceAll("\\{USER_NAME\\}", userInput.getUserName()))
+                    .contents(e.getContents().replaceAll("\\{USER_NAME\\}", userInput.getUserName()))
+                    .fromEmail(e.getSendEmail())
+                    .fromName(e.getSendUserName())
+                    .toEmail(userInput.getEmail())
+                    .toName(userInput.getUserName())
+                    .build();
 
-        mailComponent.send(mailForm);
+            mailComponent.send(mailInput);
+        });
 
         return ServiceResult.success();
     }
