@@ -34,6 +34,9 @@ public class User {
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 
+    private boolean passwordResetYn;
+    private String passwordResetKey;
+
     public static User of(UserInput userInput) {
         return User.builder()
                 .email(userInput.getEmail())

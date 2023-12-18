@@ -6,6 +6,7 @@ import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLogCount;
 import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserNoticeCount;
+import com.example.example100.user.model.UserPasswordResetInput;
 import com.example.example100.user.model.UserSummary;
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface UserService {
     User login(UserLoginInput userLoginInput);
 
     ServiceResult addUser(UserInput userInput);
+
+    ServiceResult resetPassword(UserPasswordResetInput userPasswordResetInput);
 }

@@ -11,18 +11,21 @@ DROP TABLE IF EXISTS BOARD_BOOKMARK;
 DROP TABLE IF EXISTS USER_INTEREST;
 DROP TABLE IF EXISTS BOARD_COMMENT;
 DROP TABLE IF EXISTS USER_POINT;
+DROP TABLE IF EXISTS MAIL_TEMPLATE;
 
 create table USER_ENTITY
 (
-    ID          BIGINT auto_increment primary key,
-    EMAIL       VARCHAR(255),
-    USER_NAME   VARCHAR(255),
-    PASSWORD    VARCHAR(255),
-    PHONE       VARCHAR(255),
-    STATUS      INTEGER,
-    LOCK_YN     BOOLEAN,
-    REG_DATE    TIMESTAMP,
-    UPDATE_DATE TIMESTAMP
+    ID                 BIGINT auto_increment primary key,
+    EMAIL              VARCHAR(255),
+    USER_NAME          VARCHAR(255),
+    PASSWORD           VARCHAR(255),
+    PHONE              VARCHAR(255),
+    STATUS             INTEGER,
+    LOCK_YN            BOOLEAN,
+    REG_DATE           TIMESTAMP,
+    UPDATE_DATE        TIMESTAMP,
+    PASSWORD_RESET_YN  BOOLEAN,
+    PASSWORD_RESET_KEY VARCHAR(255)
 );
 
 create table NOTICE
@@ -183,3 +186,14 @@ create table LOGS
     TEXT     CLOB,
     REG_DATE TIMESTAMP
 );
+
+create table MAIL_TEMPLATE
+(
+    ID             BIGINT auto_increment primary key,
+    TEMPLATE_ID    VARCHAR(255),
+    TITLE          VARCHAR(255),
+    CONTENTS       VARCHAR(255),
+    SEND_EMAIL     VARCHAR(255),
+    SEND_USER_NAME VARCHAR(255),
+    REG_DATE       TIMESTAMP
+)

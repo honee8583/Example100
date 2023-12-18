@@ -1,11 +1,10 @@
 package com.example.example100.common;
 
-import com.example.example100.common.model.JoinSuccessMailForm;
+import com.example.example100.mail.model.MailInput;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
@@ -17,10 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 public class MailComponent {
     private final JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")
-    private String fromEmail;
-
-    public boolean send(JoinSuccessMailForm mailForm) {
+    public boolean send(MailInput mailInput) {
         boolean result = false;
 
         MimeMessagePreparator mimeMessagePreparator = new MimeMessagePreparator() {
@@ -30,17 +26,17 @@ public class MailComponent {
                         mimeMessage, true, "UTF-8");
 
                 InternetAddress from = new InternetAddress();
-                from.setAddress(fromEmail);
-                from.setPersonal(mailForm.getFromName());
+                from.setAddress(mailInput.getFromEmail());
+                from.setPersonal(mailInput.getFromName());
 
                 InternetAddress to = new InternetAddress();
-                to.setAddress(mailForm.getToEmail());
-                to.setPersonal(mailForm.getToName());
+                to.setAddress(mailInput.getToEmail());
+                to.setPersonal(mailInput.getToName());
 
                 mimeMessageHelper.setFrom(from);
                 mimeMessageHelper.setTo(to);
-                mimeMessageHelper.setSubject(mailForm.getTitle());
-                mimeMessageHelper.setText(mailForm.getContents(), true);
+                mimeMessageHelper.setSubject(mailInput.getTitle());
+                mimeMessageHelper.setText(mailInput.getContents(), true);
             }
         };
 

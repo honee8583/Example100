@@ -152,8 +152,17 @@ POST http://localhost:8080/api/public/user
 Content-Type: application/json
 
 {
-  "email": "user5@gmail.com",
-  "userName": "user5",
+  "email": "user1@gmail.com",
+  "userName": "user1",
   "password": "1111",
   "phone": "010-1234-5678"
+}
+
+### 96. 비밀번호 초기화를 시도한 사용자에게 인증url을 포함한 메일 전송
+POST http://localhost:8080/api/public/user/password/reset
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "userName": "user1"
 }

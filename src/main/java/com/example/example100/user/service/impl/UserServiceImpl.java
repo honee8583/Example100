@@ -2,14 +2,17 @@ package com.example.example100.user.service.impl;
 
 import com.example.example100.common.MailComponent;
 import com.example.example100.common.exception.BizException;
-import com.example.example100.common.model.JoinSuccessMailForm;
 import com.example.example100.common.model.ServiceResult;
+import com.example.example100.mail.entity.MailTemplate;
+import com.example.example100.mail.model.MailInput;
+import com.example.example100.mail.repository.MailTemplateRepository;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.entity.UserInterest;
 import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLogCount;
 import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserNoticeCount;
+import com.example.example100.user.model.UserPasswordResetInput;
 import com.example.example100.user.model.UserStatus;
 import com.example.example100.user.model.UserSummary;
 import com.example.example100.user.repository.UserCustomRepository;
@@ -20,17 +23,24 @@ import com.example.example100.util.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserCustomRepository userCustomRepository;
     private final UserInterestRepository userInterestRepository;
+    private final MailTemplateRepository mailTemplateRepository;
 
     private final MailComponent mailComponent;
+
+    private final String PASSWORD_RESET_TEMPLATE_ID = "USER_PASSWORD_RESET";
+    private final String USER_JOIN_TEMPLATE_ID = "USER_JOIN";
 
     @Override
     public UserSummary getUserStatusCount() {
@@ -163,6 +173,46 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         mailComponent.send(mailForm);
+
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult resetPassword(UserPasswordResetInput userPasswordResetInput) {
+        Optional<User> user = userRepository.findByEmailAndUserName(userPasswordResetInput.getEmail(),
+                userPasswordResetInput.getUserName());
+        if (!user.isPresent()) {
+            throw new BizException("회원정보가 존재하지 않습니다.");
+        }
+        User savedUser = user.get();
+
+        String passwordResetKey = UUID.randomUUID().toString();
+
+        // 회원의 비밀번호 초기화 관련 값 세팅
+        savedUser.setPasswordResetYn(true);
+        savedUser.setPasswordResetKey(passwordResetKey);
+        userRepository.save(savedUser);
+
+        String serverUrl = "http://localhost:8080";
+
+        Optional<MailTemplate> template = mailTemplateRepository.findByTemplateId(PASSWORD_RESET_TEMPLATE_ID);
+        template.ifPresent(e -> {
+            MailInput mailInput = MailInput.builder()
+                    .title(e.getTitle().replaceAll("\\{USER_NAME\\}", savedUser.getUserName()))
+                    .contents(e.getContents()
+                            .replaceAll("\\{USER_NAME\\}", savedUser.getUserName())
+                            .replaceAll("\\{SERVER_URL\\}", serverUrl)
+                            .replaceAll("\\{RESET_PASSWORD_KEY\\}", passwordResetKey))
+                    .fromEmail(e.getSendEmail())
+                    .fromName(e.getSendUserName())
+                    .toEmail(savedUser.getEmail())
+                    .toName(savedUser.getUserName())
+                    .build();
+
+            log.info(mailInput.toString());
+
+            mailComponent.send(mailInput);
+        });
 
         return ServiceResult.success();
     }

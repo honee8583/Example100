@@ -24,6 +24,7 @@ import com.example.example100.user.model.UserFindInput;
 import com.example.example100.user.model.UserInput;
 import com.example.example100.user.model.UserLoginInput;
 import com.example.example100.user.model.UserLoginToken;
+import com.example.example100.user.model.UserPasswordResetInput;
 import com.example.example100.user.model.UserPasswordUpdateInput;
 import com.example.example100.user.model.UserPointInput;
 import com.example.example100.user.model.UserResponse;
@@ -513,7 +514,7 @@ public class UserController {
     }
 
     /**
-     *
+     * 95. 회원가입을 시도한 사용자에게 이메일을 전송하는 api를 작성하시오.
      */
     @PostMapping("/api/public/user")
     public ResponseEntity<?> addUserPublic(@RequestBody UserInput userInput) {
@@ -521,4 +522,22 @@ public class UserController {
         return ResponseResult.result(result);
     }
 
+    /**
+     * 96. 비밀번호 초기화시 사용자에게 인증코드를 전송하는 api를 작성하시오.
+     */
+    @PostMapping("/api/public/user/password/reset")
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid UserPasswordResetInput userPasswordResetInput, Errors errors) {
+        if (errors.hasErrors()) {
+            List<ErrorResponse> errorResponses = ErrorResponse.of(errors.getAllErrors());
+            return ResponseResult.fail("입력값이 잘못되었습니다.", errorResponses);
+        }
+
+        ServiceResult result = null;
+        try {
+            result = userService.resetPassword(userPasswordResetInput);
+            return ResponseResult.result(result);
+        } catch (BizException e) {
+            return ResponseResult.fail(e.getMessage());
+        }
+    }
 }
