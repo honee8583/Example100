@@ -12,6 +12,7 @@ import com.example.example100.board.model.BoardBadReportInput;
 import com.example.example100.board.model.BoardCountResponse;
 import com.example.example100.board.model.BoardInput;
 import com.example.example100.board.model.BoardPeriod;
+import com.example.example100.board.model.BoardReplyInput;
 import com.example.example100.board.model.BoardTypeEnabledInput;
 import com.example.example100.board.model.BoardTypeInput;
 import com.example.example100.board.model.BoardTypeUpdateInput;
@@ -469,6 +470,36 @@ public class BoardServiceImpl implements BoardService {
                     .fromName(e.getSendUserName())
                     .toEmail(savedUser.getEmail())
                     .toName(savedUser.getUserName())
+                    .build();
+
+            mailComponent.send(mailInput);
+        });
+
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult replyBoard(Long id, BoardReplyInput boardReplyInput) {
+        Optional<Board> savedBoard = boardRepository.findById(id);
+        if (!savedBoard.isPresent()) {
+            return ServiceResult.fail("게시판 정보가 존재하지 않습니다.");
+        }
+        Board board = savedBoard.get();
+
+        board.setReplyContents(boardReplyInput.getReplyContents());
+        boardRepository.save(board);
+
+        Optional<MailTemplate> savedMailTemplate = mailTemplateRepository.findByTemplateId("BOARD_REPLY");
+        savedMailTemplate.ifPresent(e -> {
+            MailInput mailInput = MailInput.builder()
+                    .fromEmail(e.getSendEmail())
+                    .fromName(e.getSendUserName())
+                    .toEmail(board.getUser().getEmail())
+                    .toName(board.getUser().getUserName())
+                    .title(e.getTitle().replaceAll("\\{USER_NAME\\}", board.getUser().getUserName()))
+                    .contents(e.getContents().replaceAll("\\{BOARD_TITLE\\}", board.getTitle())
+                            .replaceAll("\\{BOARD_CONTENTS\\}", board.getContent())
+                            .replaceAll("\\{BOARD_REPLY_CONTENTS\\}", boardReplyInput.getReplyContents()))
                     .build();
 
             mailComponent.send(mailInput);
