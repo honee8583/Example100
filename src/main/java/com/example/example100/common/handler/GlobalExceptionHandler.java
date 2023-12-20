@@ -1,4 +1,4 @@
-package com.example.example100.common;
+package com.example.example100.common.handler;
 
 import com.example.example100.common.exception.AuthFailException;
 import com.example.example100.common.model.ResponseResult;

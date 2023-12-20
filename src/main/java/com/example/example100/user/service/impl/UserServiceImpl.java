@@ -1,6 +1,6 @@
 package com.example.example100.user.service.impl;
 
-import com.example.example100.common.MailComponent;
+import com.example.example100.mail.MailComponent;
 import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.mail.entity.MailTemplate;

@@ -19,7 +19,7 @@ import com.example.example100.board.model.BoardTypeUpdateInput;
 import com.example.example100.board.repository.BoardBookmarkRepository;
 import com.example.example100.board.repository.BoardCommentRepository;
 import com.example.example100.board.repository.BoardScrapRepository;
-import com.example.example100.common.MailComponent;
+import com.example.example100.mail.MailComponent;
 import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.board.repository.BoardBadReportRepository;
