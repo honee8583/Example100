@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByEmailContainsAndUserNameContainsAndPhoneContains(String email, String userName, String phone);
 
+    List<User> findAllByRegDateBefore(LocalDateTime data);
+
     int countByStatus(UserStatus userStatus);
 
     @Query("select u from User u where u.regDate between :startDate and :endDate")

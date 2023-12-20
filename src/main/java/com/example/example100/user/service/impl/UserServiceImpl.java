@@ -222,4 +222,24 @@ public class UserServiceImpl implements UserService {
 
         return ServiceResult.success();
     }
+
+    @Override
+    public void sendServiceNotice() {
+        Optional<MailTemplate> template = mailTemplateRepository.findByTemplateId("USER_SERVICE_NOTICE");
+        template.ifPresent(e -> {
+            userRepository.findAllByRegDateBefore(LocalDateTime.now().minusYears(1)).stream().forEach(u -> {
+                MailInput mailInput = MailInput.builder()
+                        .title(e.getTitle().replaceAll("\\{USER_NAME\\}", u.getUserName()))
+                        .contents(e.getContents())
+                        .fromEmail(e.getSendEmail())
+                        .fromName(e.getSendUserName())
+                        .toEmail(u.getEmail())
+                        .toName(u.getUserName())
+                        .build();
+                log.info(mailInput.toString());
+
+                mailComponent.send(mailInput);
+            });
+        });
+    }
 }
