@@ -284,4 +284,15 @@ public class BoardController {
         ServiceResult result = boardService.add(email, boardInput);
         return ResponseResult.result(result);
     }
+
+    /**
+     * 97. 게시판 작성을 완료하면 사용자에게 작성완료 메일을 전송하는 API를 작성하시오.
+     */
+    @PostMapping("/api/board2")
+    public ResponseEntity<?> addBoard2(@RequestHeader("Authorization") String token,
+                                      @RequestBody BoardInput boardInput) {
+        String email = JWTUtils.getIssuer(token);
+        ServiceResult result = boardService.add(email, boardInput);
+        return ResponseResult.result(result);
+    }
 }

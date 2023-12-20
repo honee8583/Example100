@@ -18,6 +18,7 @@ import com.example.example100.board.model.BoardTypeUpdateInput;
 import com.example.example100.board.repository.BoardBookmarkRepository;
 import com.example.example100.board.repository.BoardCommentRepository;
 import com.example.example100.board.repository.BoardScrapRepository;
+import com.example.example100.common.MailComponent;
 import com.example.example100.common.exception.BizException;
 import com.example.example100.common.model.ServiceResult;
 import com.example.example100.board.repository.BoardBadReportRepository;
@@ -27,6 +28,9 @@ import com.example.example100.board.repository.BoardRepository;
 import com.example.example100.board.repository.BoardTypeCustomRepository;
 import com.example.example100.board.repository.BoardTypeRepository;
 import com.example.example100.board.service.BoardService;
+import com.example.example100.mail.entity.MailTemplate;
+import com.example.example100.mail.model.MailInput;
+import com.example.example100.mail.repository.MailTemplateRepository;
 import com.example.example100.user.entity.User;
 import com.example.example100.user.model.BoardCommentResponse;
 import com.example.example100.user.repository.UserRepository;
@@ -35,7 +39,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.convert.Jsr310Converters.LocalDateTimeToDateConverter;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,6 +54,9 @@ public class BoardServiceImpl implements BoardService {
     private final BoardScrapRepository boardScrapRepository;
     private final BoardBookmarkRepository boardBookmarkRepository;
     private final BoardCommentRepository boardCommentRepository;
+    private final MailTemplateRepository mailTemplateRepository;
+
+    private final MailComponent mailComponent;
 
     @Override
     public ServiceResult addBoard(BoardTypeInput boardTypeInput) {
@@ -451,6 +457,22 @@ public class BoardServiceImpl implements BoardService {
                 .regDate(LocalDateTime.now())
                 .build();
         boardRepository.save(board);
+
+        // 메일 전송 로직
+        Optional<MailTemplate> mailTemplate = mailTemplateRepository.findByTemplateId("BOARD_ADD");
+        mailTemplate.ifPresent(e -> {
+            MailInput mailInput = MailInput.builder()
+                    .title(e.getTitle().replaceAll("\\{USER_NAME\\}", savedUser.getUserName()))
+                    .contents(e.getContents().replaceAll("\\{BOARD_TITLE\\}", board.getTitle())
+                            .replaceAll("\\{BOARD_CONTENTS\\}", board.getContent()))
+                    .fromEmail(e.getSendEmail())
+                    .fromName(e.getSendUserName())
+                    .toEmail(savedUser.getEmail())
+                    .toName(savedUser.getUserName())
+                    .build();
+
+            mailComponent.send(mailInput);
+        });
 
         return ServiceResult.success();
     }

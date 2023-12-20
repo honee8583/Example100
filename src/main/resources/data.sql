@@ -51,3 +51,8 @@ INSERT INTO MAIL_TEMPLATE(TEMPLATE_ID, TITLE, CONTENTS, SEND_EMAIL, SEND_USER_NA
      '<div><p>{USER_NAME}님 안녕하세요.</p><p>회원가입에 성공하셨습니다!</p></div>',
      'honee85832@gmail.com', 'ADMIN', '2023-12-18 01:12:20.000000'
     );
+INSERT INTO MAIL_TEMPLATE(TEMPLATE_ID, TITLE, CONTENTS, SEND_EMAIL, SEND_USER_NAME, REG_DATE) VALUES
+    ('BOARD_ADD', '{USER_NAME}님이 글을 게시하였습니다.',
+     '<div><p>제목: {BOARD_TITLE}</p><p>내용</p><div>{BOARD_CONTENTS}</div></div>',
+     'honee85832@gmail.com', 'ADMIN', '2023-12-18 01:12:20.000000'
+    );

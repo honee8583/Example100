@@ -104,3 +104,23 @@ Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDU0Nzg3MjIsInVz
   "title": "게시글 제목입니다.",
   "contents": "게시글 내용입니다."
 }
+
+### 로그인
+POST http://localhost:8080/api/user/login3
+Content-Type: application/json
+
+{
+"email": "honee8583@naver.com",
+"password": "1111"
+}
+
+### 97
+POST http://localhost:8080/api/board2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDU3MDI4NDcsInVzZXJfaWQiOjUsInN1YiI6ImhvbmVlODU4MyIsImlzcyI6ImhvbmVlODU4M0BuYXZlci5jb20ifQ.hf1xh74xxEVI78zeQrkanAdmUgZWHDt1hTZCtBG5O6Vxv7Tubuxg9mPm4OCs8jvcuuRs_da-iqkdEmCqOptwDA
+
+{
+  "boardType": 1,
+  "title": "게시글 제목입니다.",
+  "contents": "게시글 내용입니다."
+}
