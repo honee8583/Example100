@@ -165,7 +165,7 @@
 
 
 ## 2. 프로젝트 구조
-![](../../Desktop/스크린샷 2023-12-21 오후 3.05.01.png)
+![](src/main/resources/static/ERD.png)
 
 ## 3. yml파일 설정
 - h2 데이터베이스 설정 1
