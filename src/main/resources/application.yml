@@ -1,0 +1,60 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:mem:backOfficeDb
+#    url: jdbc:h2:file:/Users/leedahoon/intellij_ultimate workspace/Example100/backOfficeDb
+    driver-class-name: org.h2.Driver
+    username: root
+    password: '1111'
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    generate-ddl: false
+
+  mail:
+    username: ${MAIL_ACCOUNT}
+    password: ${MAIL_PASSWORD}
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  packages-to-scan: com.example.example100
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /swagger-ui
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
+
+logging:
+  level:
+    org.hibernate.sql: trace
+    org.hibernate.type: trace
+  file:
+    name: ./logs/spring-jpa.log
+
+openApi:
+  pharmacy:
+    serviceKey: ${PHARMACY_SERVICE_KEY}
+  airPollution:
+    serviceKey: ${AIR_POLLUTION_SERVICE_KEY}
+  naver:
+    client_id: ${NAVER_CLIENT_ID}
+    client_secret: ${NAVER_CLIENT_SECRET}
+
+naver-api:
+  client_id: ${NAVER_API_CLIENT_ID}
+  client_secret: ${NAVER_API_CLIENT_SECRET}
