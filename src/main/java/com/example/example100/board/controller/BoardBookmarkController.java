@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Admin Board API", description = "관리자용 게시판 API 입니다.")
+@Tag(name = "Board Bookmark API", description = "게시판 북마킹 API 입니다.")
 @RestController
 @RequiredArgsConstructor
 public class BoardBookmarkController {
